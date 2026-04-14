@@ -364,7 +364,7 @@ const OrderHistory = () => {
                                             <div key={idx} className="flex items-center gap-4">
                                                 <div className="h-16 w-16 rounded-xl bg-slate-50 border border-slate-100 flex-shrink-0 relative overflow-hidden">
                                                     <img 
-                                                        src={item.image || 'images/placeholder-product.jpg'} 
+                                                        src={item.image ? (item.image.startsWith('http') ? item.image : `${import.meta.env.VITE_BACKEND_URL || ''}/${item.image}`) : 'images/placeholder-product.jpg'} 
                                                         alt={item.name}
                                                         className="w-full h-full object-cover"
                                                     />
@@ -399,8 +399,9 @@ const OrderHistory = () => {
                                     <div className="flex items-center gap-3">
                                         {order.paymentInfo?.status === 'Completed' && (
                                             <a 
-                                                href={`/api/payment/invoice/${order._id}`}
-                                                download
+                                                href={`${import.meta.env.VITE_API_URL || '/api'}/payment/invoice/${order._id}`}
+                                                target="_blank"
+                                                rel="noreferrer"
                                                 className="flex items-center gap-2 px-6 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl text-sm font-bold hover:bg-[#f4f7f1] hover:text-[#4a7c23] hover:border-[#4a7c23]/30 transition-all shadow-sm"
                                             >
                                                 <Download size={16} />

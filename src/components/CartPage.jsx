@@ -60,7 +60,7 @@ export default function CartPage() {
                 <div key={item.id} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                   <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div className="flex items-center gap-4">
-                      <img src={item.img || item.image} alt={item.name} className="h-20 w-20 rounded-2xl object-cover" onError={e => { e.target.src = '/placeholder.png'; }} />
+                      <img src={(item.img || item.image) ? ((item.img || item.image).startsWith('http') ? (item.img || item.image) : `${import.meta.env.VITE_BACKEND_URL || ''}/${item.img || item.image}`) : ''} alt={item.name} className="h-20 w-20 rounded-2xl object-cover" onError={e => { e.target.src = '/placeholder.png'; }} />
                       <div>
                         <h2 className="font-semibold text-slate-900">{item.name}</h2>
                         <p className="text-sm text-slate-600">₹{item.unitPrice || item.price} /- {item.weight ? `(${item.weight})` : ''}</p>

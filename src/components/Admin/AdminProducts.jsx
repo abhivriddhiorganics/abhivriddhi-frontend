@@ -117,7 +117,7 @@ const AdminProducts = () => {
                         <div className="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 border border-slate-200 flex-shrink-0">
                           {/* Use proxy URL reliably. Default placeholder on broken image */}
                           <img 
-                            src={product.imageUrl ? (product.imageUrl.startsWith('http') ? product.imageUrl : `${product.imageUrl}`) : '/placeholder.png'} 
+                            src={product.imageUrl ? (product.imageUrl.startsWith('http') ? product.imageUrl : `${import.meta.env.VITE_BACKEND_URL || ''}/${product.imageUrl}`) : '/placeholder.png'} 
                             alt="" 
                             className="w-full h-full object-cover" 
                             onError={(e) => { e.target.src = '/placeholder.png'; }}

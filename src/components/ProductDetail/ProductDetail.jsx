@@ -41,7 +41,7 @@ function RelatedCard({ product }) {
   return (
     <div className="related-card" onClick={() => navigate(`/product/${product.id || product._id}`)}>
       <div className="related-img-wrap">
-        <img src={product.img} alt={product.name} />
+        <img src={product.img ? (product.img.startsWith('http') ? product.img : `${import.meta.env.VITE_BACKEND_URL || ''}/${product.img}`) : ''} alt={product.name} />
       </div>
       <div className="related-info">
         <h4 className="related-name">{product.name}</h4>
@@ -177,7 +177,7 @@ export default function ProductDetail() {
           {/* Left: Gallery */}
           <div className="pd-gallery">
             <div className="pd-main-img-wrap">
-              <img src={thumbnails[activeThumb]} alt={product.name} className="pd-main-img" />
+              <img src={thumbnails[activeThumb] ? (thumbnails[activeThumb].startsWith('http') ? thumbnails[activeThumb] : `${import.meta.env.VITE_BACKEND_URL || ''}/${thumbnails[activeThumb]}`) : ''} alt={product.name} className="pd-main-img" />
             </div>
             <div className="pd-thumbnails">
               {thumbnails.map((img, idx) => (
@@ -186,7 +186,7 @@ export default function ProductDetail() {
                   className={`pd-thumb ${activeThumb === idx ? 'active' : ''}`}
                   onClick={() => setActiveThumb(idx)}
                 >
-                  <img src={img} alt="thumbnail" />
+                  <img src={img ? (img.startsWith('http') ? img : `${import.meta.env.VITE_BACKEND_URL || ''}/${img}`) : ''} alt="thumbnail" />
                 </button>
               ))}
             </div>

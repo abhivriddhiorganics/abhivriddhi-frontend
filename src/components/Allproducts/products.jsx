@@ -156,7 +156,7 @@ function ProductCard({ product }) {
     >
       <div className="product-img-wrap">
         <img
-          src={product.img || product.imageUrl}
+          src={(product.img || product.imageUrl) ? ((product.img || product.imageUrl).startsWith('http') ? (product.img || product.imageUrl) : `${import.meta.env.VITE_BACKEND_URL || ''}/${product.img || product.imageUrl}`) : '/placeholder.png'}
           alt={product.name}
           className="product-img"
           loading="lazy"

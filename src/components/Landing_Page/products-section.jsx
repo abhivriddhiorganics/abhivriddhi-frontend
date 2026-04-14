@@ -115,7 +115,7 @@ export function ProductsSection() {
                 {/* Image */}
                 <div style={styles.imgWrap}>
                   <img
-                    src={product.img}
+                    src={product.img ? (product.img.startsWith('http') ? product.img : `${import.meta.env.VITE_BACKEND_URL || ''}/${product.img}`) : ''}
                     alt={product.name}
                     style={styles.img}
                     draggable={false}

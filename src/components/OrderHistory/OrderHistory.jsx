@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Package, Calendar, CreditCard, ChevronLeft, Download, Eye, ExternalLink, Clock, CheckCircle, Truck, XCircle, AlertCircle } from 'lucide-react';
-import { fetchMyOrders } from '../../services/api';
+import { fetchMyOrders, GET_INVOICE_URL } from '../../services/api';
 
 const OrderHistory = () => {
     const navigate = useNavigate();
@@ -399,7 +399,7 @@ const OrderHistory = () => {
                                     <div className="flex items-center gap-3">
                                         {order.paymentInfo?.status === 'Completed' && (
                                             <a 
-                                                href={`${import.meta.env.VITE_API_URL || '/api'}/payment/invoice/${order._id}`}
+                                                href={GET_INVOICE_URL(order._id)}
                                                 target="_blank"
                                                 rel="noreferrer"
                                                 className="flex items-center gap-2 px-6 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl text-sm font-bold hover:bg-[#f4f7f1] hover:text-[#4a7c23] hover:border-[#4a7c23]/30 transition-all shadow-sm"

@@ -1,5 +1,11 @@
-export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:2000';
-const BASE_URL = import.meta.env.VITE_API_URL ?? '/api';
+export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://abhivriddhi-backend.onrender.com';
+const BASE_URL = import.meta.env.VITE_API_URL ?? 'https://abhivriddhi-backend.onrender.com/api';
+
+/**
+ * Returns the absolute URL for a PDF invoice download.
+ * Using absolute URLs prevents Vercel proxy issues.
+ */
+export const GET_INVOICE_URL = (orderId) => `${BASE_URL}/payment/invoice/${orderId}`;
 
 
 const request = async (endpoint, options = {}) => {

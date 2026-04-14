@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { GET_INVOICE_URL } from '../../services/api';
 
 const INDIAN_STATES = [
   'Andaman and Nicobar Islands', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar',
@@ -456,7 +457,7 @@ export default function CheckoutPage() {
            </button>
            
            <a 
-              href={`${BASE_URL}/payment/invoice/${orderId}`} 
+              href={GET_INVOICE_URL(orderId)} 
               target="_blank" 
               rel="noreferrer" 
               className="receipt-btn secondary"

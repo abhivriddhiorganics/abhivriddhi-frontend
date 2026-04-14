@@ -65,9 +65,9 @@ const AdminWhatsApp = () => {
       
       // Dynamic polling: faster when awaiting connection, slower when ready
       const getPollSpeed = () => {
-         if (waStatus.status === 'Ready') return 15000;
+         if (waStatus.status.includes('Connected') || waStatus.status === 'Ready') return 30000; // Much slower for Official API
          if (waStatus.qr) return 5000;
-         return 3000;
+         return 5000;
       };
 
       const interval = setInterval(() => fetchStatus(), getPollSpeed());
@@ -91,9 +91,9 @@ const AdminWhatsApp = () => {
                <h1 className="text-4xl font-black text-slate-900 tracking-tight">Communication Node</h1>
                <p className="text-slate-500 font-medium mt-1">Configure and monitor your WhatsApp business connection.</p>
             </div>
-            <div className={`px-4 py-2 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-2 ${waStatus.status === 'Ready' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-red-50 text-red-600 border border-red-100'
+            <div className={`px-4 py-2 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-2 ${(waStatus.status === 'Ready' || waStatus.status.includes('Connected')) ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-red-50 text-red-600 border border-red-100'
                }`}>
-               <div className={`w-2 h-2 rounded-full ${waStatus.status === 'Ready' ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`}></div>
+               <div className={`w-2 h-2 rounded-full ${(waStatus.status === 'Ready' || waStatus.status.includes('Connected')) ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`}></div>
                {waStatus.status}
             </div>
          </div>
@@ -166,7 +166,7 @@ const AdminWhatsApp = () => {
 
             {/* QR Scanner Card */}
              <div className="bg-slate-900 p-8 rounded-[40px] text-white flex flex-col items-center justify-center text-center space-y-6 relative overflow-hidden">
-                {waStatus.status === 'Ready' ? (
+                {(waStatus.status === 'Ready' || waStatus.status.includes('Connected')) ? (
                    <div className="relative z-10 animate-in zoom-in duration-500">
                       <div className="w-24 h-24 bg-emerald-500/10 rounded-full flex items-center justify-center text-emerald-400 mx-auto mb-6 relative">
                          <CheckCircle2 size={48} />
@@ -174,13 +174,13 @@ const AdminWhatsApp = () => {
                             <Zap size={10} className="text-white" />
                          </div>
                       </div>
-                      <h2 className="text-2xl font-black italic tracking-tighter">SUCCESSFULLY LINKED</h2>
+                      <h2 className="text-2xl font-black italic tracking-tighter">{waStatus.status.includes('Official') ? 'OFFICIAL API ACTIVE' : 'SUCCESSFULLY LINKED'}</h2>
                       <div className="mt-4 py-2 px-4 bg-white/10 rounded-2xl border border-white/10">
-                         <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400">Linked Account</p>
-                         <p className="text-lg font-bold mt-1">+{waStatus.linkedNumber || 'Active Device'}</p>
+                         <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400">{waStatus.status.includes('Official') ? 'Phone Number ID' : 'Linked Account'}</p>
+                         <p className="text-lg font-bold mt-1">{waStatus.linkedNumber || 'Active Node'}</p>
                       </div>
                       <p className="text-slate-400 text-xs mt-4 max-w-[200px] leading-relaxed">
-                         All order confirmations and OTPs are now being dispatched from this number.
+                         {waStatus.status.includes('Official') ? 'API connectivity is stable. OTPs are authorized via Meta Graph.' : 'All order confirmations and OTPs are now being dispatched from this number.'}
                       </p>
                    </div>
                ) : waStatus.qr ? (

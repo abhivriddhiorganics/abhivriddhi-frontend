@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Exclude private pages
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /checkout
+Disallow: /profile
+Disallow: /orders
+
+Sitemap: https://abhivriddhiorganics.com/sitemap.xml

@@ -4,6 +4,7 @@ import { fetchProductById, fetchProducts } from '../../services/api';
 import { useCart } from '../../context/CartContext';
 import Navbar, { CartDrawer } from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
+import SEO from '../SEO';
 import './ProductDetail.css';
 
 const WEIGHT_OPTIONS = ['500gm', '750gm', '1Kg'];
@@ -162,8 +163,36 @@ export default function ProductDetail() {
     thumbnails.push(product.backImageUrl);
   }
 
+  // Generate Product Structured Data (JSON-LD)
+  const productSchema = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": product.name,
+    "image": thumbnails,
+    "description": product.description,
+    "brand": {
+      "@type": "Brand",
+      "name": "Abhivriddhi Organics"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": window.location.href,
+      "priceCurrency": "INR",
+      "price": unitPrice,
+      "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+    }
+  };
+
   return (
     <main className="pd-main">
+        <SEO 
+          title={product.name}
+          description={product.description}
+          keywords={`${product.name}, ${product.category}, Organic Groceries, Abhivriddhi`}
+          ogImage={product.imageUrl}
+          ogType="product"
+          schemaData={productSchema}
+        />
         {/* ── Breadcrumb ── */}
         <nav className="pd-breadcrumb">
           <button onClick={() => navigate('/')}>All Products</button>

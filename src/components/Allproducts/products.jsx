@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './products.css';
 import { fetchProducts } from '../../services/api';
 import { useCart } from '../../context/CartContext';
+import SEO from '../SEO';
 const CATEGORIES = ['All', 'Atta', 'Millets', 'Rice', 'Honey']; // Local copy for UI filters
 
 // ─── Filter Dropdown ─────────────────────────────────────────
@@ -227,6 +228,12 @@ export default function AllProducts() {
 
   return (
     <main className="main-content">
+      <SEO 
+        title="All Products"
+        description="Explore our full collection of organic groceries. From stone-ground atta to pristine forest honey and nutrient-dense millets."
+        keywords="Organic Grocery List, Shop Millets Online, Best Organic Atta India"
+        canonical="https://abhivriddhiorganics.com/products"
+      />
       <div className="page-header">
         <h1 className="page-title">All Products</h1>
         <p className="page-subtitle">Our Products</p>

@@ -29,9 +29,9 @@ export function PillarsSection() {
             <div>
               <div className="mb-6">
                 <h3 className="text-2xl md:text-3xl font-bold text-[#1a3d0c] mb-1">
-                  Mr. Satendra Singh
+                  Mr. Satendra Singh Baghel
                 </h3>
-                <p className="text-gray-500 font-medium tracking-wide">Farmer</p>
+                <p className="text-gray-500 font-medium tracking-wide">Founder</p>
               </div>
               <p className="text-gray-600 mb-6 leading-relaxed">
                 Satendra Singh, a dedicated farmer from Satna, is the driving force behind Abhivriddhi Organics.
@@ -88,9 +88,9 @@ export function PillarsSection() {
             <div className="order-1 md:order-2">
               <div className="mb-6">
                 <h3 className="text-2xl md:text-3xl font-bold text-[#1a3d0c] mb-1">
-                  Mrs. Meena Singh
+                  Mrs. Meena Singh Baghel
                 </h3>
-                <p className="text-gray-500 font-medium tracking-wide">Housewife & Backbone</p>
+                <p className="text-gray-500 font-medium tracking-wide">Proprietor</p>
               </div>
               <p className="text-gray-600 mb-6 leading-relaxed">
                 As a homemaker and a mother, she understands that food is not just about taste,

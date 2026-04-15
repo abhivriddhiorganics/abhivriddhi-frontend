@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import './Navbar.css';
 
 // ─── User Dropdown Component ──────────────────────────────────
-function UserDropdown({ user, onLogout }) {
+function UserDropdown({ user, onLogout, onItemClick }) {
   const userName = user?.name ? user.name.split(' ')[0] : 'Account';
   const isAdmin = user?.role === 'admin';
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +41,7 @@ function UserDropdown({ user, onLogout }) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-64 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+        <div className="user-dropdown-menu absolute right-0 mt-2 w-64 origin-top-right rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
           <div className="py-2 px-2 space-y-1">
             <div className="px-4 py-2 text-sm font-bold text-slate-500 border-b border-slate-100 mb-2">
               Your Account
@@ -50,8 +50,11 @@ function UserDropdown({ user, onLogout }) {
               <NavLink
                 key={`${item.label}-${index}`}
                 to={item.link}
-                onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#4a7c23] rounded-md transition"
+                onClick={() => {
+                  setIsOpen(false);
+                  if (onItemClick) onItemClick();
+                }}
+                className="flex items-center gap-3 px-4 py-2.5 text-sm hover:text-[#4a7c23] rounded-md transition dropdown-item"
               >
                 <div className="text-slate-400">{item.icon}</div>
                 <span className="font-medium">{item.label}</span>
@@ -62,7 +65,7 @@ function UserDropdown({ user, onLogout }) {
                 setIsOpen(false);
                 onLogout();
               }}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 hover:bg-red-50 hover:text-red-600 rounded-md transition mt-1 border-t border-slate-100"
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm rounded-md transition mt-1 border-t dropdown-logout"
             >
               <div className="text-slate-400 group-hover:text-red-500"><LogOut size={16} /></div>
               <span className="font-medium">Logout</span>
@@ -187,8 +190,8 @@ function CartDrawer({ open, onClose, items, onUpdate, onRemove, onCheckout }) {
                 )
                 }
                 <div className="progress-bar-container">
-                  <div 
-                    className="progress-bar-fill" 
+                  <div
+                    className="progress-bar-fill"
                     style={{ width: `${Math.min((total / 1499) * 100, 100)}%` }}
                   ></div>
                 </div>
@@ -310,6 +313,13 @@ export default function Navbar({ cartCount = 0, onCartClick, cartItems = [], onC
   return (
     <>
       <AnnouncementBar />
+
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`mobile-overlay ${mobileOpen ? 'visible' : ''}`}
+        onClick={() => setMobileOpen(false)}
+      />
+
       <nav className="navbar">
         <div className="navbar-inner">
           <button className="navbar-logo" onClick={() => navigate('/')} aria-label="Go to home">
@@ -323,23 +333,6 @@ export default function Navbar({ cartCount = 0, onCartClick, cartItems = [], onC
               className="navbar-logo-img"
             />
           </button>
-
-          <div className={`navbar-links ${mobileOpen ? 'open' : ''}`}>
-            <NavLink to="/products" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>Products</NavLink>
-            <NavLink to="/makings" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>Makings</NavLink>
-            {/* <NavLink to="/contact" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>Contact</NavLink> */}
-
-            {isAuthenticated ? (
-              <div onClick={() => setMobileOpen(false)} style={{ display: 'flex' }}>
-                <UserDropdown user={user} onLogout={handleLogout} />
-              </div>
-            ) : (
-              <>
-                <NavLink to="/login" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>Login</NavLink>
-                <NavLink to="/signup" onClick={() => setMobileOpen(false)} className="nav-btn-primary" style={{ padding: '8px 16px', borderRadius: '8px', fontSize: '14px', textDecoration: 'none', marginLeft: '8px' }}>Sign Up</NavLink>
-              </>
-            )}
-          </div>
 
           <div className="navbar-actions">
             <button className="cart-btn" onClick={handleCartOpen} aria-label="Open cart">
@@ -360,6 +353,28 @@ export default function Navbar({ cartCount = 0, onCartClick, cartItems = [], onC
               <span /><span /><span />
             </button>
           </div>
+        </div>
+
+        {/* navbar-links moved OUTSIDE navbar-inner to prevent stacking/glass conflicts on mobile */}
+        <div className={`navbar-links ${mobileOpen ? 'open' : ''}`}>
+          <NavLink to="/products" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>Products</NavLink>
+          <NavLink to="/makings" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>Makings</NavLink>
+          {/* <NavLink to="/contact" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>Contact</NavLink> */}
+
+          {isAuthenticated ? (
+            <div style={{ display: 'flex' }}>
+              <UserDropdown
+                user={user}
+                onLogout={handleLogout}
+                onItemClick={() => setMobileOpen(false)}
+              />
+            </div>
+          ) : (
+            <>
+              <NavLink to="/login" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>Login</NavLink>
+              <NavLink to="/signup" onClick={() => setMobileOpen(false)} className="nav-link nav-btn-primary-mobile">Sign Up</NavLink>
+            </>
+          )}
         </div>
       </nav>
 

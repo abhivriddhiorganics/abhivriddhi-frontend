@@ -99,7 +99,7 @@ export default function SignupPage() {
       : 'bg-blue-50 border border-blue-200 text-blue-700';
 
   return (
-    <div className="py-20 px-4 flex items-center justify-center bg-slate-50/50">
+    <div className="pt-[180px] pb-20 px-4 flex justify-center bg-slate-50/50">
       <div className="w-full max-w-md rounded-3xl bg-white p-10 shadow-xl shadow-slate-200">
 
         {/* Header */}

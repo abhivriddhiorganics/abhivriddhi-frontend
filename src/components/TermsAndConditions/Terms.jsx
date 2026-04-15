@@ -17,8 +17,9 @@ const Terms = () => {
 
         <p>
           The terms “we”, “us”, and “our” refer to Abhivriddhi Organics, having
-          its registered office at [Insert Registered Address], with company
-          registration number [Insert Registration Number]. The term “you”
+          its registered office at C/O SATENDRA SINGH, POST MAUHAR, NEAR SOCIETY OFFICE, NEAR PANCHAYAT OFFICE TIKAITAN TOLA, KOTHI
+Didaundh, Satna, Madhya Pradesh, 485666, with company
+          registration number 21425450001704. The term “you”
           refers to any user or visitor of this website.
         </p>
 
@@ -61,7 +62,7 @@ const Terms = () => {
 
         <p>
           These terms shall be governed by the laws of India, and any disputes
-          shall be subject to the jurisdiction of courts in [Insert City/State].
+          shall be subject to the jurisdiction of courts in Satna, Madhya Pradesh.
         </p>
 
         <p className="contact">

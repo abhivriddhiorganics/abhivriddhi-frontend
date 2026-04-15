@@ -148,7 +148,7 @@ export default function LoginPage() {
   const msgColor = message.type === 'error' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700';
 
   return (
-    <div className="py-20 px-4 flex items-center justify-center bg-slate-50/50">
+    <div className="pt-[180px] pb-20 px-4 flex justify-center bg-slate-50/50">
       <div className="w-full max-w-md rounded-3xl bg-white p-10 shadow-xl shadow-slate-200 border border-slate-100">
 
         {/* Step Header */}

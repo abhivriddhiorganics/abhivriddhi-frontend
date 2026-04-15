@@ -182,7 +182,8 @@
 .navbar {
   /* position: absolute; */
   position: fixed;
-  top: 34px; /* Perfectly flush with announcement bar height (8+8+18px) */
+  top: 34px;
+  /* Perfectly flush with announcement bar height (8+8+18px) */
   left: 0;
   width: 100%;
   z-index: 100;
@@ -236,9 +237,22 @@
 .navbar-links {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 30px;
-  margin-left: auto;
-  margin-right: 20px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 97%;
+  max-width: 1800px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding-right: 70px;
+  pointer-events: none;
+}
+
+.navbar-links > * {
+  pointer-events: auto;
 }
 
 .nav-link {
@@ -318,28 +332,92 @@
   }
 
   .navbar-links {
-    position: absolute;
-    top: 60px;
-    left: 10px;
-    right: 10px;
+    position: fixed !important;
+    top: 125px !important;
+    /* Shifted slightly further down from 110px */
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 65vw !important;
+    max-width: 320px !important;
 
-    display: none;
-    flex-direction: column;
-    gap: 10px;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    gap: 0 !important;
+    padding: 20px 0 40px !important;
 
-    background: rgba(0, 0, 0, 0.9);
-    backdrop-filter: blur(10px);
+    background: #000000 !important;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5) !important;
 
-    border-radius: 10px;
-    padding: 12px;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    z-index: 101 !important;
+    margin: 0 !important;
+    pointer-events: auto !important;
+    left: auto !important;
   }
 
   .navbar-links.open {
-    display: flex;
+    transform: translateX(0) !important;
   }
 
   .nav-link {
-    padding: 10px;
+    width: 100% !important;
+    padding: 14px 25px !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    background: #000000 !important;
+    /* Force solid black background on each link */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    letter-spacing: 0.8px !important;
+    text-transform: uppercase !important;
+    text-align: left !important;
+    justify-content: flex-start !important;
+    margin: 0 !important;
+  }
+
+  /* Remove the active link background tint on mobile to prevent transparency glitches */
+  .nav-link.nav-link-active {
+    background: #000000 !important;
+    color: #4a7c23 !important;
+    /* Highlight text color instead of background */
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .user-dropdown-menu {
+    position: static !important;
+    /* Stack inside the vertical flow on mobile */
+    background: #000000 !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    display: block !important;
+    /* Force visible on mobile if open */
+  }
+
+  .dropdown-item {
+    color: #cccccc !important;
+    padding: 12px 25px !important;
+    /* Match horizontal alignment of nav-links */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .dropdown-logout {
+    color: #ff5555 !important;
+    padding: 14px 25px !important;
+    /* Match horizontal alignment */
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
   }
 }
 
@@ -364,6 +442,23 @@
 }
 
 
+
+/* ─── Mobile Overlay ─── */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
 
 /* ─── Hamburger ───────────────────────────────────────────── */
 /* .hamburger {
@@ -862,4 +957,28 @@
   border: none;
   font-weight: 600;
   cursor: pointer;
+}
+
+/* ─── Dropdown Fallbacks for Desktop ─── */
+.user-dropdown-menu {
+  background: #ffffff;
+}
+
+.dropdown-item {
+  color: #334155 !important;
+  background: transparent !important;
+}
+
+.dropdown-item:hover {
+  background: #f8fafc !important;
+}
+
+.dropdown-logout {
+  color: #475569 !important;
+  border-color: #f1f5f9;
+}
+
+.dropdown-logout:hover {
+  background: #fef2f2 !important;
+  color: #dc2626 !important;
 }

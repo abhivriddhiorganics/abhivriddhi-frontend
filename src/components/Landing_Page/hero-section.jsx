@@ -33,7 +33,7 @@ export function HeroSection() {
 
           {/* Description */}
           <p className="text-white/90 text-sm md:text-base mb-6 leading-relaxed">
-            Abhivriddhi Organics, rooted in Jabalpur, crafts pure, chemical-free flours
+            Abhivriddhi Organics, rooted in Satna, crafts pure, chemical-free flours
             inspired by India’s timeless food wisdom.
           </p>
 

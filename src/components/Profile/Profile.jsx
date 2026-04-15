@@ -214,11 +214,11 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f1f3f6] pt-[150px] pb-12 font-['Inter'] text-slate-800">
+    <div className="min-h-screen bg-[#f1f3f6] pt-[180px] pb-12 font-['Inter'] text-slate-800">
       <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row gap-4 items-start">
         
         {/* SIDEBAR */}
-        <aside className="w-full md:w-1/2 lg:w-1/4 flex flex-col gap-4 sticky top-24">
+        <aside className="w-full md:w-1/2 lg:w-1/4 flex flex-col gap-4 sticky top-[130px]">
           <div className="bg-white p-3 flex items-center gap-4 shadow-sm border border-slate-100">
             <div className="w-12 h-12 rounded-full bg-yellow-400 flex items-center justify-center overflow-hidden">
                <User className="text-white" size={30} />

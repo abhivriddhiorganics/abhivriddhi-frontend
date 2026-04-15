@@ -29,21 +29,15 @@ const ShippingPolicy = () => {
         <section>
           <h3>Delivery Timelines</h3>
           <p>
-            Delivery timelines may vary based on location, with an estimated delivery window of 1 to 3 days for most major cities. Regional areas might take slightly longer depending on the logistics network.
+            Delivery timelines may vary based on location, with an estimated delivery window of 6 to 7 days for most major cities. Regional areas might take slightly longer depending on the logistics network.
           </p>
         </section>
 
-        <section>
-          <h3>Next-Day Delivery</h3>
-          <p>
-            For select cities, next-day delivery may be available for orders placed before [Insert Cut-off Time]. Orders placed after the cut-off time will be processed on the next working day.
-          </p>
-        </section>
 
         <div className="policy-contact">
           <p>
             For any queries, you may contact us at:<br />
-            <strong>WhatsApp/Phone:</strong> [Insert Phone/WhatsApp]<br />
+            <strong>WhatsApp/Phone:</strong> 7999598032<br />
             <strong>Email:</strong> <a href="mailto:abhivriddhiorganics@gmail.com">abhivriddhiorganics@gmail.com</a>
           </p>
         </div>

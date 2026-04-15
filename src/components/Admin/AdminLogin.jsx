@@ -34,8 +34,8 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 font-sans p-6">
-      <div className="max-w-md w-full bg-white rounded-3xl shadow-xl border border-gray-100 p-10">
+    <div className="min-h-screen flex justify-center bg-gray-50 font-sans p-6 pt-[180px]">
+      <div className="max-w-md w-full bg-white rounded-3xl shadow-xl border border-gray-100 p-10 ">
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-[#f0fdf4] rounded-2xl mb-6 shadow-inner text-4xl">
             🌱
@@ -46,7 +46,7 @@ const AdminLogin = () => {
 
         {error && (
           <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-8 rounded-r-xl text-sm font-bold flex items-center gap-3">
-             <span>⚠️</span> {error}
+            <span>⚠️</span> {error}
           </div>
         )}
 
@@ -89,7 +89,7 @@ const AdminLogin = () => {
         </form>
 
         <div className="text-center mt-10">
-          <button 
+          <button
             type="button"
             onClick={() => navigate('/')}
             className="text-gray-400 hover:text-gray-600 font-bold text-sm transition-colors"

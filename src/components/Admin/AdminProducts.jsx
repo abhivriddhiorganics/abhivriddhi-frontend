@@ -54,12 +54,14 @@ const AdminProducts = () => {
   };
 
   const filteredProducts = products.filter(p => {
-    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter === 'All' || p.category === categoryFilter;
+    const name = p.name || '';
+    const category = p.category || '';
+    const matchesSearch = name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = categoryFilter === 'All' || category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
 
-  const categories = ['All', ...new Set(products.map(p => p.category))];
+  const categories = ['All', ...new Set(products.map(p => p.category).filter(Boolean))];
 
   if (loading && products.length === 0) {
     return (
@@ -157,6 +159,11 @@ const AdminProducts = () => {
                 </div>
              </div>
            ))}
+           {filteredProducts.length === 0 && (
+             <div className="p-12 text-center text-slate-500 text-sm italic">
+                No products found matching your current filters.
+             </div>
+           )}
         </div>
 
         {/* Desktop View */}
@@ -208,6 +215,13 @@ const AdminProducts = () => {
                   </td>
                 </tr>
               ))}
+              {filteredProducts.length === 0 && (
+                <tr>
+                  <td colSpan="5" className="px-8 py-20 text-center text-slate-400 text-lg font-bold">
+                    No products found matching your criteria.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

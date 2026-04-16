@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { calculateShipping } from '../utils/pricing';
 
 export default function CartPage() {
   const { cartItems, updateQty, removeFromCart } = useCart();
   const totalPrice = cartItems.reduce((sum, item) => sum + (item.unitPrice || item.price) * item.qty, 0);
+  const shippingFee = calculateShipping(totalPrice);
+  const finalTotal = totalPrice + shippingFee;
 
   return (
     <div className="min-h-screen bg-white text-slate-900">

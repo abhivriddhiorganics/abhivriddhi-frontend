@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { GET_INVOICE_URL } from '../../services/api';
+import { calculateShipping } from '../../utils/pricing';
 
 const INDIAN_STATES = [
   'Andaman and Nicobar Islands', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar',
@@ -636,10 +637,27 @@ export default function CheckoutPage() {
                 <div className="co-price-details">
                   <div className="co-price-header" style={{ display: 'none' }}>Price Details</div>
                   <div style={{ paddingTop: 24 }}>
-                    <div className="co-total-row"><span>Price ({cartItems.reduce((s, i) => s + i.qty, 0)} items)</span><span>₹{total.toLocaleString('en-IN')}</span></div>
-                    <div className="co-total-row"><span>Delivery Charges</span><span className="co-badge-green">Free</span></div>
-                    <div className="co-total-row grand"><span>Total Payable</span><span>₹{total.toLocaleString('en-IN')}</span></div>
-                    <div style={{ color: '#388e3c', fontSize: 13, fontWeight: 600, paddingBottom: 20 }}>Your Total Savings on this order ₹0</div>
+                    <div className="co-total-row">
+                      <span>Subtotal ({cartItems.reduce((s, i) => s + i.qty, 0)} items)</span>
+                      <span>₹{subtotal.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div className="co-total-row">
+                      <span>Delivery Charges</span>
+                      {shippingFee === 0 ? (
+                        <span className="co-badge-green">Free</span>
+                      ) : (
+                        <span style={{ fontWeight: 700, color: '#1a3d0c' }}>₹{shippingFee}</span>
+                      )}
+                    </div>
+                    <div className="co-total-row grand">
+                      <span>Total Payable</span>
+                      <span>₹{total.toLocaleString('en-IN')}</span>
+                    </div>
+                    {shippingFee > 0 && (
+                      <div style={{ color: '#4a7c23', fontSize: 12, fontWeight: 700, marginTop: 12, textAlign: 'right' }}>
+                        Add ₹{(999 - subtotal).toLocaleString('en-IN')} more to get FREE Delivery!
+                      </div>
+                    )}
                   </div>
                 </div>
 

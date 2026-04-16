@@ -146,7 +146,7 @@ export default function ProductDetail() {
       cartVariant: selectedWeight ? selectedWeight.label : null,
       cartPrice: Number(unitPrice)
     };
-    for (let i = 0; i < qty; i++) addToCart(productToAdd);
+    addToCart(productToAdd, qty);
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 1200);
   };

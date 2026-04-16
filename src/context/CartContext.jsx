@@ -28,7 +28,7 @@ export function CartProvider({ children }) {
     localStorage.setItem('abhivriddhi_cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const addToCart = (product) => {
+  const addToCart = (product, quantity = 1) => {
     const weight = product.cartVariant || product.weight || 'Standard Size';
     const unitPrice = product.cartPrice || product.unitPrice || product.price;
     // Map database fields to legacy fields if missing
@@ -40,13 +40,13 @@ export function CartProvider({ children }) {
       if (existing) {
         return prev.map(i => {
           if (i.id === pid && i.weight === weight) {
-            const newQty = i.qty + 1;
+            const newQty = i.qty + quantity;
             return { ...i, qty: newQty, totalPrice: unitPrice * newQty };
           }
           return i;
         });
       }
-      return [...prev, { ...product, id: pid, img: pimg, weight, unitPrice, qty: 1, totalPrice: unitPrice * 1 }];
+      return [...prev, { ...product, id: pid, img: pimg, weight, unitPrice, qty: quantity, totalPrice: unitPrice * quantity }];
     });
   };
 

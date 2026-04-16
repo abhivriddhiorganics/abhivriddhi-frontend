@@ -50,6 +50,27 @@ export function CartProvider({ children }) {
     });
   };
 
+  const syncQty = (product, qty) => {
+    const weight = product.cartVariant || product.weight || 'Standard Size';
+    const pid = product.id || product._id;
+    
+    setCartItems(prev => {
+      const existing = prev.find(i => i.id === pid && i.weight === weight);
+      if (existing) {
+        return prev.map(i => {
+          if (i.id === pid && i.weight === weight) {
+            return { ...i, qty, totalPrice: i.unitPrice * qty };
+          }
+          return i;
+        });
+      }
+      // If not in cart, add it with the specified quantity
+      const unitPrice = product.cartPrice || product.unitPrice || product.price;
+      const pimg = product.img || product.imageUrl;
+      return [...prev, { ...product, id: pid, img: pimg, weight, unitPrice, qty, totalPrice: unitPrice * qty }];
+    });
+  };
+
   const updateQty = (id, weight, qty) => {
     if (qty < 1) {
       setCartItems(prev => prev.filter(i => !(i.id === id && i.weight === weight)));

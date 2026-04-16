@@ -64,7 +64,7 @@ function RelatedCard({ product }) {
 export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { cartItems, cartOpen, setCartOpen, addToCart, updateQty, removeFromCart, totalItems } = useCart();
+  const { cartItems, cartOpen, setCartOpen, addToCart, syncQty, updateQty, removeFromCart, totalItems } = useCart();
 
   const [product, setProduct]               = useState(null);
   const [related, setRelated]               = useState([]);
@@ -116,6 +116,19 @@ export default function ProductDetail() {
     loadProductData();
   }, [id]);
 
+  // Sync quantity with cart when product or cartItems changes
+  useEffect(() => {
+    if (product) {
+      const vid = selectedWeight?.label || null;
+      const existing = cartItems.find(i => (i.id === product._id || i.id === product.id) && i.weight === vid);
+      if (existing) {
+        setQty(existing.qty);
+      } else {
+        setQty(1);
+      }
+    }
+  }, [product, selectedWeight, cartItems]);
+
   const unitPrice = Number(selectedWeight ? selectedWeight.price : (product ? product.price : 0)) || 0;
   const totalPrice = unitPrice * qty;
 
@@ -146,7 +159,7 @@ export default function ProductDetail() {
       cartVariant: selectedWeight ? selectedWeight.label : null,
       cartPrice: Number(unitPrice)
     };
-    addToCart(productToAdd, qty);
+    syncQty(productToAdd, qty);
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 1200);
   };
@@ -298,7 +311,11 @@ export default function ProductDetail() {
                 onClick={handleAddToCart}
                 disabled={!product.inStock}
               >
-                {addedToCart ? '✓ Added to Cart' : 'Add to cart'}
+                {addedToCart ? '✓ Updated!' : (
+                  cartItems.find(i => (i.id === product._id || i.id === product.id) && i.weight === (selectedWeight?.label || null)) 
+                  ? 'Update Quantity' 
+                  : 'Add to cart'
+                )}
               </button>
               <button
                 className="pd-btn-solid"

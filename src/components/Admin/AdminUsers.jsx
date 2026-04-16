@@ -39,14 +39,12 @@ const AdminUsers = () => {
     if (!window.confirm(`Are you sure you want to PERMANENTLY delete user "${user.name}"? This action cannot be undone.`)) {
       return;
     }
-
     try {
       const data = await api.delete(`/admin/users/${user._id}`);
       if (data.success) {
         setUsers(users.filter(u => u._id !== user._id));
       }
     } catch (err) {
-      console.error('Failed to delete user', err);
       alert(err.message || 'Failed to delete user');
     }
   };
@@ -85,7 +83,7 @@ const AdminUsers = () => {
       </div>
       
       <div className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
-        {/* Mobile Card View (Visible only on small screens) */}
+        {/* Mobile View */}
         <div className="block lg:hidden divide-y divide-gray-50">
            {filteredUsers.map(user => (
              <div key={user._id} className="p-4 space-y-4 hover:bg-gray-50/50 transition-colors">
@@ -138,7 +136,7 @@ const AdminUsers = () => {
            ))}
         </div>
 
-        {/* Desktop Table View (Hidden on mobile) */}
+        {/* Desktop View */}
         <div className="hidden lg:block overflow-x-auto">
           <table className="w-full text-left">
             <thead>
@@ -205,15 +203,6 @@ const AdminUsers = () => {
                   </td>
                 </tr>
               ))}
-              {filteredUsers.length === 0 && (
-                <tr>
-                  <td colSpan="4" className="px-10 py-32 text-center text-gray-400">
-                    <div className="text-6xl mb-6 grayscale opacity-20">👥</div>
-                    <div className="text-gray-400 font-black text-xl tracking-tight">No customers found</div>
-                    <p className="text-gray-300 font-bold mt-2">Try searching for a different name or email</p>
-                  </td>
-                </tr>
-              )}
             </tbody>
           </table>
         </div>
@@ -223,4 +212,3 @@ const AdminUsers = () => {
 };
 
 export default AdminUsers;
-

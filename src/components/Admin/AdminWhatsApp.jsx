@@ -86,12 +86,12 @@ const AdminWhatsApp = () => {
       <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
 
          {/* Header */}
-         <div className="flex items-center justify-between">
+         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div>
-               <h1 className="text-4xl font-black text-slate-900 tracking-tight">Communication Node</h1>
+               <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Communication Node</h1>
                <p className="text-slate-500 font-medium mt-1">Configure and monitor your WhatsApp business connection.</p>
             </div>
-            <div className={`px-4 py-2 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-2 ${(waStatus.status === 'Ready' || waStatus.status.includes('Connected')) ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-red-50 text-red-600 border border-red-100'
+            <div className={`w-fit px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 ${(waStatus.status === 'Ready' || waStatus.status.includes('Connected')) ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-red-50 text-red-600 border border-red-100'
                }`}>
                <div className={`w-2 h-2 rounded-full ${(waStatus.status === 'Ready' || waStatus.status.includes('Connected')) ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`}></div>
                {waStatus.status}

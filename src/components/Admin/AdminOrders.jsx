@@ -71,8 +71,51 @@ const AdminOrders = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto">
+        {/* Mobile Card View (Visible only on small screens) */}
+        <div className="block lg:hidden divide-y divide-gray-50">
+           {filteredOrders.map(order => (
+             <div key={order._id} className="p-4 space-y-4 hover:bg-gray-50/50 transition-colors">
+                <div className="flex justify-between items-start">
+                   <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-black text-xs">
+                         {order.shippingAddress?.fullName?.charAt(0) || 'U'}
+                      </div>
+                      <div>
+                         <div className="font-black text-gray-800 text-sm leading-tight">
+                            {order.shippingAddress?.fullName || 'Anonymous'}
+                         </div>
+                         <div className="text-[10px] text-emerald-600 font-black mt-0.5 uppercase tracking-wider">
+                            #{String(order._id).slice(-8).toUpperCase()}
+                         </div>
+                      </div>
+                   </div>
+                   <div className="text-right">
+                      <div className="font-black text-gray-900 text-sm">₹{order.totalAmount?.toLocaleString()}</div>
+                      <div className="text-[10px] text-gray-400 font-bold">{new Date(order.createdAt).toLocaleDateString()}</div>
+                   </div>
+                </div>
+
+                <div className="flex items-center justify-between gap-4">
+                   <div className={`px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest border ${
+                      ['Delivered', 'Completed'].includes(order.orderStatus) ? 'bg-green-50 text-green-700 border-green-100' : 
+                      ['Cancelled', 'Failed'].includes(order.orderStatus) ? 'bg-red-50 text-red-700 border-red-100' :
+                      'bg-amber-50 text-amber-700 border-amber-100'
+                   }`}>
+                      {order.orderStatus}
+                   </div>
+                   <button 
+                      onClick={() => setSelectedOrder(order)}
+                      className="px-4 py-2 bg-gray-900 text-white rounded-lg font-black text-[10px] uppercase tracking-widest shadow-sm"
+                   >
+                      Manage Order
+                   </button>
+                </div>
+             </div>
+           ))}
+        </div>
+
+        {/* Desktop Table View (Hidden on mobile) */}
+        <div className="hidden lg:block overflow-x-auto">
           <table className="w-full text-left">
             <thead>
               <tr className="bg-gray-50/50 text-gray-400 font-black text-xs uppercase tracking-widest border-b border-gray-100">

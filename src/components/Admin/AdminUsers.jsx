@@ -84,8 +84,61 @@ const AdminUsers = () => {
         </div>
       </div>
       
-      <div className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto">
+        {/* Mobile Card View (Visible only on small screens) */}
+        <div className="block lg:hidden divide-y divide-gray-50">
+           {filteredUsers.map(user => (
+             <div key={user._id} className="p-4 space-y-4 hover:bg-gray-50/50 transition-colors">
+                <div className="flex justify-between items-start">
+                   <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs shadow-inner ${user.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-emerald-50 text-emerald-700'}`}>
+                         {user.name?.charAt(0) || 'U'}
+                      </div>
+                      <div>
+                         <div className="font-black text-gray-800 text-sm leading-tight">{user.name}</div>
+                         <div className="text-[10px] text-gray-400 font-bold mt-0.5 uppercase tracking-widest opacity-70">ID: #{String(user._id).slice(-6).toUpperCase()}</div>
+                      </div>
+                   </div>
+                   <div className="flex flex-col items-end gap-1">
+                      <span className={`px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-widest ${user.role === 'admin' ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'}`}>
+                         {user.role}
+                      </span>
+                      <span className={`px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-widest ${user.status === 'Active' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
+                         {user.status || 'Active'}
+                      </span>
+                   </div>
+                </div>
+
+                <div className="space-y-1">
+                   <p className="text-xs font-bold text-gray-700">{user.email}</p>
+                   {user.mobile && <p className="text-[10px] text-gray-400 font-medium">{user.mobile}</p>}
+                </div>
+
+                {user.role !== 'admin' && (
+                  <div className="flex items-center gap-2 pt-2">
+                    <button 
+                       onClick={() => handleStatusToggle(user._id, user.status || 'Active')}
+                       className={`flex-1 text-[9px] font-black uppercase tracking-widest px-3 py-2 rounded-lg transition-all border ${
+                         user.status === 'Active' 
+                           ? 'bg-white border-yellow-100 text-yellow-600' 
+                           : 'bg-emerald-600 border-transparent text-white'
+                       }`}
+                     >
+                       {user.status === 'Active' ? 'Deactivate' : 'Activate'}
+                    </button>
+                    <button 
+                       onClick={() => handleDeleteUser(user)}
+                       className="px-3 py-2 bg-red-50 border border-red-100 text-red-600 rounded-lg text-[9px] font-black uppercase tracking-widest"
+                    >
+                       Delete
+                    </button>
+                  </div>
+                )}
+             </div>
+           ))}
+        </div>
+
+        {/* Desktop Table View (Hidden on mobile) */}
+        <div className="hidden lg:block overflow-x-auto">
           <table className="w-full text-left">
             <thead>
               <tr className="bg-gray-50/50 text-gray-400 font-black text-xs uppercase tracking-widest border-b border-gray-100">

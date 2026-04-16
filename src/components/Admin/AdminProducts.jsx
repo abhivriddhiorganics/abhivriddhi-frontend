@@ -92,8 +92,65 @@ const AdminProducts = () => {
            </div>
         </div>
 
-        {/* Table */}
-        <div className="overflow-x-auto">
+        {/* Mobile Card View (Visible only on small screens) */}
+        <div className="block lg:hidden divide-y divide-slate-100">
+           {loading ? (
+             <div className="flex items-center justify-center p-12">
+                <div className="w-8 h-8 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin"></div>
+             </div>
+           ) : filteredProducts.map(product => (
+             <div key={product._id || product.id} className="p-4 space-y-4">
+                <div className="flex gap-4">
+                   <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 flex-shrink-0">
+                      <img 
+                        src={product.imageUrl ? (product.imageUrl.startsWith('http') ? product.imageUrl : `${import.meta.env.VITE_BACKEND_URL || ''}/${product.imageUrl}`) : '/placeholder.png'} 
+                        alt="" 
+                        className="w-full h-full object-cover" 
+                        onError={(e) => { e.target.src = '/placeholder.png'; }}
+                      />
+                   </div>
+                   <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-start">
+                         <div className="font-bold text-slate-900 truncate pr-2">{product.name}</div>
+                         <div className="font-black text-slate-900">₹{product.price}</div>
+                      </div>
+                      <div className="text-xs text-slate-500 mt-1 line-clamp-1">{product.category}</div>
+                      <div className="mt-2">
+                        <button 
+                          onClick={() => handleToggleStock(product)}
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest transition-colors border ${
+                            product.inStock 
+                              ? 'bg-green-50 text-green-700 border-green-200' 
+                              : 'bg-slate-50 text-slate-600 border-slate-200'
+                          }`}
+                        >
+                          <div className={`w-1.5 h-1.5 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-slate-400'}`} />
+                          {product.inStock ? 'In Stock' : 'Out of Stock'}
+                        </button>
+                      </div>
+                   </div>
+                </div>
+                <div className="flex items-center justify-end gap-3 pt-2">
+                   <button 
+                      onClick={() => { setCurrentProduct(product); setShowModal(true); }}
+                      className="flex-1 py-2 px-3 bg-slate-50 border border-slate-200 text-slate-700 rounded-lg text-xs font-bold flex items-center justify-center gap-2"
+                   >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                      Edit
+                   </button>
+                   <button 
+                      onClick={() => handleDelete(product._id || product.id)}
+                      className="py-2 px-3 bg-red-50 border border-red-100 text-red-600 rounded-lg text-xs font-bold"
+                   >
+                      Delete
+                   </button>
+                </div>
+             </div>
+           ))}
+        </div>
+
+        {/* Desktop Table View (Hidden on mobile) */}
+        <div className="hidden lg:block overflow-x-auto">
           {loading ? (
              <div className="flex items-center justify-center p-20">
                 <div className="w-8 h-8 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin"></div>

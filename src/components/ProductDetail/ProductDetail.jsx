@@ -8,7 +8,7 @@ import SEO from '../SEO';
 import './ProductDetail.css';
 
 const WEIGHT_OPTIONS = ['500gm', '750gm', '1Kg'];
-const SHIPPING_INFO = `We ship pan-India within 5–7 business days. Orders above ₹500 qualify for free shipping. All products are packed securely to ensure freshness. Tracking details are shared via SMS/email once your order is dispatched.`;
+const SHIPPING_INFO = `We ship pan-India within 5–7 business days. Orders above ₹999 qualify for free shipping. For orders below ₹999, a standard delivery fee of ₹80 applies. All products are packed securely to ensure freshness.`;
 
 // ─── Accordion ────────────────────────────────────────────────
 function Accordion({ title, children }) {

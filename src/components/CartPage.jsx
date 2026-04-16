@@ -96,18 +96,25 @@ export default function CartPage() {
             <aside className="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
               <h2 className="mb-4 text-xl font-semibold">Order Summary</h2>
               <div className="space-y-3 text-sm text-slate-600">
-                <div className="flex justify-between">
+                <div className="flex justify-between font-medium">
                   <span>Subtotal</span>
-                  <span>₹{totalPrice}/-</span>
+                  <span>₹{totalPrice.toLocaleString('en-IN')}/-</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping</span>
-                  <span>Calculated at checkout</span>
+                  <span className={shippingFee === 0 ? "font-bold text-green-600" : ""}>
+                    {shippingFee === 0 ? 'FREE' : `₹${shippingFee.toLocaleString('en-IN')}/-`}
+                  </span>
                 </div>
+                {shippingFee > 0 && (
+                  <p className="text-[10px] text-slate-500 italic">
+                    Add ₹{(999 - totalPrice).toLocaleString('en-IN')} more for FREE shipping!
+                  </p>
+                )}
               </div>
-              <div className="mt-6 flex items-center justify-between text-lg font-semibold text-slate-900">
+              <div className="mt-6 flex items-center justify-between text-lg font-semibold text-slate-900 border-t border-slate-200 pt-4">
                 <span>Total</span>
-                <span>₹{totalPrice}/-</span>
+                <span>₹{finalTotal.toLocaleString('en-IN')}/-</span>
               </div>
               <Link
                 to="/checkout"

@@ -167,7 +167,9 @@ export default function CheckoutPage() {
     addressLine: '', landmark: '', city: '', state: '', pincode: '',
   });
 
-  const total = cartItems.reduce((s, i) => s + (i.unitPrice || i.price) * i.qty, 0);
+  const subtotal = cartItems.reduce((s, i) => s + (i.unitPrice || i.price) * i.qty, 0);
+  const shippingFee = calculateShipping(subtotal);
+  const total = subtotal + shippingFee;
 
   // Guard: Redirect if cart is empty
   useEffect(() => {
@@ -369,7 +371,9 @@ export default function CheckoutPage() {
             quantity: i.qty,
             image: i.img || ''
           })),
-          totalAmount: total, userId,
+          totalAmount: total,
+          shippingFee: shippingFee,
+          userId,
         }),
       });
       const data = await res.json();

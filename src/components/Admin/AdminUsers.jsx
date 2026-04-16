@@ -84,6 +84,7 @@ const AdminUsers = () => {
         </div>
       </div>
       
+      <div className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
         {/* Mobile Card View (Visible only on small screens) */}
         <div className="block lg:hidden divide-y divide-gray-50">
            {filteredUsers.map(user => (

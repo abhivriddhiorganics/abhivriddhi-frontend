@@ -3,6 +3,7 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import { User, Package, Ticket, Zap, Wallet, MapPin, Heart, Gift, Bell, LogOut, ChevronDown, ChevronUp, ShieldAlert } from 'lucide-react';
 import { fetchProducts, getCurrentUser } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import { calculateShipping, SHIPPING_THRESHOLD } from '../../utils/pricing';
 import './Navbar.css';
 
 // ─── User Dropdown Component ──────────────────────────────────
@@ -179,9 +180,9 @@ function CartDrawer({ open, onClose, items, onUpdate, onRemove, onCheckout }) {
 
             <div className="cart-scroll-area">
               <div className="shipping-progress">
-                {total < 1499 ? (
+                {total < SHIPPING_THRESHOLD ? (
                   <p className="shipping-text">
-                    Add <strong>₹{(1499 - total).toFixed(0)}</strong> more to unlock <strong>FREE Shipping</strong> 🎉
+                    Add <strong>₹{(SHIPPING_THRESHOLD - total).toFixed(0)}</strong> more to unlock <strong>FREE Shipping</strong> 🎉
                   </p>
                 ) : (
                   <p className="shipping-text">
@@ -192,13 +193,13 @@ function CartDrawer({ open, onClose, items, onUpdate, onRemove, onCheckout }) {
                 <div className="progress-bar-container">
                   <div
                     className="progress-bar-fill"
-                    style={{ width: `${Math.min((total / 1499) * 100, 100)}%` }}
+                    style={{ width: `${Math.min((total / SHIPPING_THRESHOLD) * 100, 100)}%` }}
                   ></div>
                 </div>
                 <div className="progress-milestones">
-                  <div className={`milestone ${total >= 1499 ? 'achieved' : 'pending'}`}>
-                    <div className="milestone-icon">{total >= 1499 ? '✓' : '!'}</div>
-                    <div className="milestone-labels"><span>₹1499</span><span>Free Shipping</span></div>
+                  <div className={`milestone ${total >= SHIPPING_THRESHOLD ? 'achieved' : 'pending'}`}>
+                    <div className="milestone-icon">{total >= SHIPPING_THRESHOLD ? '✓' : '!'}</div>
+                    <div className="milestone-labels"><span>₹{SHIPPING_THRESHOLD}</span><span>Free Shipping</span></div>
                   </div>
                 </div>
               </div>

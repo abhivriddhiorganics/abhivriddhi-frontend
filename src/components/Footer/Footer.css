@@ -24,11 +24,13 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 18px;
-  margin-left: -20px; /* Shift only the logo to the left */
+  margin-left: -20px;
+  /* Shift only the logo to the left */
 }
 
 .footer-logo-img {
-  max-width: 200px; /* Increased size */
+  max-width: 200px;
+  /* Increased size */
   height: auto;
   display: block;
 }
@@ -51,7 +53,7 @@
   justify-content: center;
   width: 38px;
   height: 38px;
-  border:  2px solid #ffffff;
+  border: 2px solid #ffffff;
   border-radius: 8px;
   color: #FFFFFF;
   text-decoration: none;
@@ -93,7 +95,9 @@
   transition: color 0.2s;
 }
 
-.footer-links a:hover { color: #8bcf8b; }
+.footer-links a:hover {
+  color: #8bcf8b;
+}
 
 .footer-bottom {
   padding: 18px 40px;
@@ -118,7 +122,9 @@
   transition: color 0.2s;
 }
 
-.footer-bottom-links a:hover { color: #aaa; }
+.footer-bottom-links a:hover {
+  color: #aaa;
+}
 
 .footer-copy {
   font-size: 11px;
@@ -143,11 +149,13 @@
 
   .footer-links-group {
     flex: 1 1 30%;
-    margin-top: 45px; /* Shifted down to align with paragraph start */
+    margin-top: 8px;
+    /* Reduced gap as requested for mobile */
   }
 
   .footer-logo-img {
-    max-width: 160px; /* Slightly smaller for mobile side-by-side */
+    max-width: 140px;
+    /* Slightly smaller for mobile side-by-side */
   }
 
   .footer-bottom {
@@ -160,6 +168,7 @@
     gap: 12px;
   }
 }
+
 .footer-meta {
   display: flex;
   align-items: center;

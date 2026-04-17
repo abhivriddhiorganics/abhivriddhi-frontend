@@ -42,7 +42,7 @@ export function PillarsSection() {
                 {satendraQuotes.map((quote, index) => (
                   <Card key={index} className="bg-[#4a7c23] border-0">
                     <CardContent className="p-3 sm:p-4">
-                      <p className="text-white text-[11px] sm:text-sm leading-relaxed font-league-spartan font-semibold">{`"${quote}"`}</p>
+                      <p className="text-white text-[15px] sm:text-base md:text-lg leading-relaxed font-league-spartan font-semibold">{`"${quote}"`}</p>
                     </CardContent>
                   </Card>
                 ))}
@@ -102,7 +102,7 @@ export function PillarsSection() {
                 {meenaQuotes.map((quote, index) => (
                   <Card key={index} className="bg-[#4a7c23] border-0">
                     <CardContent className="p-3 sm:p-4">
-                      <p className="text-white text-[11px] sm:text-sm leading-relaxed font-league-spartan font-semibold">{`"${quote}"`}</p>
+                      <p className="text-white text-[15px] sm:text-base md:text-lg leading-relaxed font-league-spartan font-semibold">{`"${quote}"`}</p>
                     </CardContent>
                   </Card>
                 ))}

@@ -155,6 +155,13 @@ export const deleteSubAdmin = (id) => request(`/admin/sub-admins/${id}`, {
   method: 'DELETE'
 });
 
+// ─── Site Settings ───────────────────────────────────────────
+export const fetchSettings = () => request('/admin/settings');
+export const updateSettings = (payload) => request('/admin/settings', {
+  method: 'PUT',
+  body: JSON.stringify(payload)
+});
+
 // Default export for unified access (used by Admin components)
 const api = {
   get: (url) => request(url, { method: 'GET' }),

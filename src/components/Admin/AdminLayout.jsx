@@ -11,7 +11,8 @@ import {
   LogOut,
   ChevronRight,
   Menu,
-  X
+  X,
+  Settings
 } from 'lucide-react';
 
 const AdminLayout = () => {
@@ -30,6 +31,8 @@ const AdminLayout = () => {
     { name: 'Users', path: '/admin/users', icon: Users },
     { name: 'Orders', path: '/admin/orders', icon: Package },
     { name: 'Sub-Admins', path: '/admin/sub-admins', icon: UserPlus },
+    { name: 'WhatsApp', path: '/admin/whatsapp', icon: MessageSquare },
+    { name: 'Settings', path: '/admin/settings', icon: Settings },
   ];
 
   return (

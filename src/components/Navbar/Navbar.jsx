@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { User, Package, Ticket, Zap, Wallet, MapPin, Heart, Gift, Bell, LogOut, ChevronDown, ChevronUp, ShieldAlert } from 'lucide-react';
-import { fetchProducts, getCurrentUser } from '../../services/api';
+import { fetchProducts, getCurrentUser, fetchSettings } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { calculateShipping, SHIPPING_THRESHOLD } from '../../utils/pricing';
 import './Navbar.css';
@@ -80,12 +80,27 @@ function UserDropdown({ user, onLogout, onItemClick }) {
 
 // ─── Announcement Bar ─────────────────────────────────────────
 export function AnnouncementBar() {
-  const items = [
+  const [items, setItems] = useState([
     '100% Organic',
     'Gluten Free',
     'Chemical Free',
     'No Sugar Added',
-  ];
+  ]);
+
+  useEffect(() => {
+    const loadAnnouncements = async () => {
+      try {
+        const res = await fetchSettings();
+        if (res.success && res.settings?.announcementBar?.length > 0) {
+          setItems(res.settings.announcementBar);
+        }
+      } catch (err) {
+        console.warn('[Navbar] Failed to fetch announcements, using defaults.');
+      }
+    };
+    loadAnnouncements();
+  }, []);
+
   return (
     <div className="announcement-bar">
       <div className="announcement-track">

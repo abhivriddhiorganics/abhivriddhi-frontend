@@ -153,6 +153,18 @@ export default function ProductDetail() {
     );
   }
 
+  const handleQtyChange = (newQty) => {
+    const val = Math.max(1, newQty);
+    setQty(val);
+    
+    // If already in cart, update instantly
+    const weightLabel = selectedWeight?.label || null;
+    const existingInCart = cartItems.find(i => (i.id === (product._id || product.id)) && i.weight === weightLabel);
+    if (existingInCart) {
+      updateQty(product._id || product.id, weightLabel, val);
+    }
+  };
+
   const handleAddToCart = () => {
     const productToAdd = {
       ...product,
@@ -163,7 +175,6 @@ export default function ProductDetail() {
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 1200);
   };
-
 
   const handleCheckout = () => {
     handleAddToCart();
@@ -276,7 +287,7 @@ export default function ProductDetail() {
               <div className="pd-qty">
                 <button
                   className="pd-qty-btn"
-                  onClick={() => setQty(q => Math.max(1, q - 1))}
+                  onClick={() => handleQtyChange(qty - 1)}
                   aria-label="Decrease quantity"
                 >
                   −
@@ -284,7 +295,7 @@ export default function ProductDetail() {
                 <span className="pd-qty-val">{qty}</span>
                 <button
                   className="pd-qty-btn"
-                  onClick={() => setQty(q => q + 1)}
+                  onClick={() => handleQtyChange(qty + 1)}
                   aria-label="Increase quantity"
                 >
                   +
@@ -311,11 +322,7 @@ export default function ProductDetail() {
                 onClick={handleAddToCart}
                 disabled={!product.inStock}
               >
-                {addedToCart ? '✓ Updated!' : (
-                  cartItems.find(i => (i.id === product._id || i.id === product.id) && i.weight === (selectedWeight?.label || null)) 
-                  ? 'Update Quantity' 
-                  : 'Add to cart'
-                )}
+                {addedToCart ? '✓ Added!' : 'Add to cart'}
               </button>
               <button
                 className="pd-btn-solid"

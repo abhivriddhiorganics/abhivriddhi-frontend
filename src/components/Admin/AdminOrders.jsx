@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../services/api';
+import api, { GET_INVOICE_URL } from '../../services/api';
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -188,7 +188,10 @@ const AdminOrders = () => {
             <div className="p-8 pb-4 flex justify-between items-center border-b border-gray-50 bg-gray-50/30">
               <div>
                 <h2 className="text-2xl font-black text-gray-900 tracking-tight">Order Breakdown</h2>
-                <p className="text-emerald-600 font-black text-xs uppercase tracking-widest mt-1">REF: #{String(selectedOrder._id).toUpperCase()}</p>
+                <div className="flex flex-wrap items-center gap-3 mt-1">
+                  <p className="text-emerald-600 font-black text-xs uppercase tracking-widest">REF: #{String(selectedOrder._id).toUpperCase()}</p>
+                  <p className="text-gray-400 font-black text-[10px] uppercase tracking-widest border-l border-gray-200 pl-3">TXN: {selectedOrder.paymentInfo?.id || 'Prepaid'}</p>
+                </div>
               </div>
               <button onClick={() => setSelectedOrder(null)} className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white shadow-sm text-gray-400 font-bold text-xl">✕</button>
             </div>
@@ -204,7 +207,10 @@ const AdminOrders = () => {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-black text-gray-800 tracking-tight text-lg line-clamp-1">{item.name}</p>
-                        <p className="text-xs text-gray-400 font-bold uppercase mt-1 tracking-wider">Qty: {item.quantity}</p>
+                        <div className="flex items-center gap-3 mt-1">
+                          <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">Qty: {item.quantity}</p>
+                          <p className="text-[10px] text-emerald-600 font-black uppercase tracking-widest border-l border-gray-200 pl-3">PID: {item.productId}</p>
+                        </div>
                       </div>
                       <div className="text-right">
                         <p className="font-black text-gray-900 text-lg">₹{item.price?.toLocaleString()}</p>
@@ -249,7 +255,15 @@ const AdminOrders = () => {
               </div>
             </div>
 
-            <div className="p-8 bg-gray-50/50 border-t border-gray-100 flex justify-end">
+            <div className="p-8 bg-gray-50/50 border-t border-gray-100 flex justify-between items-center gap-4">
+              <a 
+                href={GET_INVOICE_URL(selectedOrder._id)} 
+                target="_blank" 
+                rel="noreferrer"
+                className="px-6 py-4 bg-white border border-gray-200 text-gray-700 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200 transition-all flex items-center gap-2"
+              >
+                <span>📄</span> Download Invoice
+              </a>
               <button onClick={() => setSelectedOrder(null)} className="px-10 py-4 bg-gray-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-gray-800 transition-all">Close Summary</button>
             </div>
           </div>

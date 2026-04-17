@@ -224,6 +224,7 @@ const OrderHistory = () => {
                         </button>
                         <p className="text-xs uppercase tracking-[0.2em] font-black opacity-80 mb-2">Order Summary</p>
                         <h2 className="text-3xl font-black tracking-tight">#{order._id.slice(-8).toUpperCase()}</h2>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60 mt-1">Transaction ID: {order.paymentInfo?.id || 'Prepaid'}</p>
                     </div>
 
                     <div className="p-8 max-h-[70vh] overflow-y-auto custom-scrollbar">
@@ -275,9 +276,22 @@ const OrderHistory = () => {
                                 <h4 className="text-slate-900 font-black mb-1">Need help with this order?</h4>
                                 <p className="text-xs text-slate-500 font-bold">Our support team is available 24/7 for you.</p>
                             </div>
-                            <button className="px-6 py-2.5 bg-white border-2 border-[#4a7c23] text-[#4a7c23] rounded-2xl text-xs font-black hover:bg-[#4a7c23] hover:text-white transition-all shadow-sm uppercase tracking-tighter">
-                                Contact Support
-                            </button>
+                            <div className="flex gap-3">
+                                {order.paymentInfo?.status === 'Completed' && (
+                                    <a 
+                                        href={GET_INVOICE_URL(order._id)}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="px-6 py-2.5 bg-white border-2 border-[#4a7c23] text-[#4a7c23] rounded-2xl text-xs font-black hover:bg-[#4a7c23] hover:text-white transition-all shadow-sm uppercase tracking-tighter flex items-center gap-2"
+                                    >
+                                        <Download size={14} />
+                                        Invoice
+                                    </a>
+                                )}
+                                <button className="px-6 py-2.5 bg-[#4a7c23] text-white rounded-2xl text-xs font-black hover:bg-[#3d661d] transition-all shadow-sm uppercase tracking-tighter">
+                                    Contact Support
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -371,7 +385,10 @@ const OrderHistory = () => {
                                                 </div>
                                                 <div className="flex-1 min-w-0">
                                                     <h4 className="text-slate-900 font-bold text-sm truncate">{item.name}</h4>
-                                                    <p className="text-slate-500 text-xs">Qty: {item.quantity} × ₹{item.price.toLocaleString('en-IN')}</p>
+                                                    <div className="flex items-center gap-3">
+                                                        <p className="text-slate-500 text-xs">Qty: {item.quantity} × ₹{item.price.toLocaleString('en-IN')}</p>
+                                                        <p className="text-[10px] text-[#4a7c23] font-black uppercase tracking-widest border-l border-slate-200 pl-3">PID: {item.productId}</p>
+                                                    </div>
                                                 </div>
                                                 <div className="text-right">
                                                     <p className="text-slate-900 font-bold text-sm">₹{(item.price * item.quantity).toLocaleString('en-IN')}</p>

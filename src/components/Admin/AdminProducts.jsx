@@ -14,7 +14,8 @@ const AdminProducts = () => {
   const fetchProductsList = async () => {
     try {
       setLoading(true);
-      const data = await api.get('/admin/products');
+      // Use the public products endpoint for reliability as it is confirmed working
+      const data = await api.get('/products');
       if (data.success) {
         setProducts(data.products);
       }

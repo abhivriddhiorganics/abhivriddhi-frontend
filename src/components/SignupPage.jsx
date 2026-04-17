@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { registerUser, verifyOTP } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -16,8 +16,17 @@ export default function SignupPage() {
   const [step, setStep] = useState('register'); // 'register' | 'verify'
   const [message, setMessage] = useState({ text: '', type: 'info' });
   const [loading, setLoading] = useState(false);
-  const [verifyType, setVerifyType] = useState('email'); // 'email' | 'mobile'
-  const [showPassword, setShowPassword] = useState(false);
+  const [resendTimer, setResendTimer] = useState(0);
+
+  useEffect(() => {
+    let interval;
+    if (resendTimer > 0) {
+      interval = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [resendTimer]);
 
   const setError = (text) => setMessage({ text, type: 'error' });
   const setSuccess = (text) => setMessage({ text, type: 'success' });
@@ -37,6 +46,7 @@ export default function SignupPage() {
     // Client-side validation
     if (name.trim().length < 2) return setError('Name must be at least 2 characters.');
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return setError('Please enter a valid email address.');
+    if (!/^[6-9]\d{9}$/.test(mobile.trim())) return setError('Please enter a valid 10-digit mobile number.');
     if (password.length < 6) return setError('Password must be at least 6 characters.');
 
     setLoading(true);
@@ -46,9 +56,11 @@ export default function SignupPage() {
       await registerUser({
         name: name.trim(),
         email: email.trim(),
+        mobile: mobile.trim(),
         password,
       });
       setStep('verify');
+      setResendTimer(60);
       setSuccess(
         'Account created! OTP has been sent to your email. Enter the OTP to verify your account.'
       );
@@ -83,6 +95,24 @@ export default function SignupPage() {
       setError(error.message || 'Verification failed. Please try again.');
     }
 
+    setLoading(false);
+  };
+
+  const handleResendOTP = async () => {
+    if (resendTimer > 0) return;
+    
+    setLoading(true);
+    try {
+      await sendOTP({
+        identifier: email.trim(),
+        type: 'email',
+        purpose: 'registration'
+      });
+      setResendTimer(60);
+      setSuccess('A new OTP has been sent to your email.');
+    } catch (error) {
+      setError(error.message || 'Failed to resend OTP.');
+    }
     setLoading(false);
   };
 
@@ -137,6 +167,20 @@ export default function SignupPage() {
                 className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-[#4a7c23] focus:ring-2 focus:ring-[#4a7c23]/10"
                 placeholder="you@example.com"
               />
+            </label>
+
+            <label className="block text-sm font-medium text-slate-700">
+              Mobile Number
+              <div className="relative mt-2">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">+91</span>
+                <input
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                  type="tel"
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 pl-12 pr-4 py-3 text-sm outline-none transition focus:border-[#4a7c23] focus:ring-2 focus:ring-[#4a7c23]/10"
+                  placeholder="9876543210"
+                />
+              </div>
             </label>
 
 
@@ -216,6 +260,17 @@ export default function SignupPage() {
                 'Verify & Continue'
               )}
             </button>
+
+            <div className="text-center pt-2">
+              <button
+                type="button"
+                onClick={handleResendOTP}
+                disabled={loading || resendTimer > 0}
+                className="text-sm font-bold text-[#4a7c23] hover:text-[#3d6a1c] disabled:text-slate-400 transition"
+              >
+                {resendTimer > 0 ? `Resend OTP in ${resendTimer}s` : 'Resend OTP'}
+              </button>
+            </div>
 
             <button
               type="button"

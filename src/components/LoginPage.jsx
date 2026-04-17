@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { sendOTP, verifyOTP, loginWithPassword, forgotPassword, resetPassword } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -20,6 +20,17 @@ export default function LoginPage() {
   const [loginMode, setLoginMode] = useState('password'); // 'password' | 'otp'
   const [message, setMessage] = useState({ text: '', type: 'info' });
   const [loading, setLoading] = useState(false);
+  const [resendTimer, setResendTimer] = useState(0);
+
+  useEffect(() => {
+    let interval;
+    if (resendTimer > 0) {
+      interval = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [resendTimer]);
 
   const setError = (text) => setMessage({ text, type: 'error' });
   const setSuccess = (text) => setMessage({ text, type: 'success' });
@@ -30,8 +41,18 @@ export default function LoginPage() {
   };
 
   const validateIdentifier = () => {
-    if (!identifier.trim() || !identifier.includes('@')) {
-      setError('Please enter a valid email.');
+    const val = identifier.trim();
+    if (!val) {
+      setError('Please enter your email or mobile number.');
+      return false;
+    }
+    
+    // Check if it's an email or a 10-digit mobile number
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    const isMobile = /^[6-9]\d{9}$/.test(val);
+    
+    if (!isEmail && !isMobile) {
+      setError('Please enter a valid email or 10-digit mobile number.');
       return false;
     }
     return true;
@@ -45,17 +66,21 @@ export default function LoginPage() {
     setMessage({ text: '', type: 'info' });
 
     try {
+      const isEmail = identifier.includes('@');
+      const type = isEmail ? 'email' : 'mobile';
+      
       if (purpose === 'password-reset') {
-        await forgotPassword({ identifier: getFormattedIdentifier(), type: 'email' });
+        await forgotPassword({ identifier: getFormattedIdentifier(), type });
         setStep('reset_otp_verify');
       } else {
-        await sendOTP({ identifier: getFormattedIdentifier(), type: 'email', purpose: 'login' });
+        await sendOTP({ identifier: getFormattedIdentifier(), type, purpose: 'login' });
         setStep('otp_verify');
       }
-      setSuccess(`OTP sent to your email!`);
+      setResendTimer(60);
+      setSuccess(`OTP sent to your ${type}!`);
     } catch (error) {
       if (error.message.toLowerCase().includes('not found') || error.message.toLowerCase().includes('not registered')) {
-        setError('Acccount not found. Please register yourself first.');
+        setError('Account not found. Please register yourself first.');
       } else {
         setError(error.message || 'Failed to send OTP.');
       }
@@ -101,9 +126,11 @@ export default function LoginPage() {
       if (error.code === 'ACCOUNT_UNVERIFIED') {
         // Automatically trigger OTP for registration and move to verify step
         try {
-          await sendOTP({ identifier: getFormattedIdentifier(), type: 'email', purpose: 'registration' });
+          const type = identifier.includes('@') ? 'email' : 'mobile';
+          await sendOTP({ identifier: getFormattedIdentifier(), type, purpose: 'registration' });
           setStep('otp_verify');
-          setInfo('Account not verified yet. We have sent a code to your email to complete your registration.');
+          setResendTimer(60);
+          setInfo(`Account not verified yet. We have sent a code to your ${type} to complete your registration.`);
         } catch (sendError) {
           setError('Account not verified. Failed to send verification code.');
         }
@@ -197,13 +224,13 @@ export default function LoginPage() {
           {/* IDENTIFIER FIELD */}
           {(step === 'login' || step === 'forgot') && (
             <div className="space-y-2">
-              <label className="text-sm font-bold text-slate-700 ml-1">Email Address</label>
+              <label className="text-sm font-bold text-slate-700 ml-1">Email or Mobile Number</label>
               <input
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
                 type="text"
                 className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 text-sm outline-none transition focus:border-[#4a7c23] focus:ring-4 focus:ring-[#4a7c23]/5 placeholder:text-slate-400 font-medium"
-                placeholder="you@email.com"
+                placeholder="Email or 10-digit mobile"
               />
             </div>
           )}
@@ -234,7 +261,7 @@ export default function LoginPage() {
           {/* OTP INPUT */}
           {(step === 'otp_verify' || step === 'reset_otp_verify') && (
             <div className="space-y-4">
-              <div className="bg-[#4a7c23]/5 rounded-2xl px-5 py-4 text-sm text-slate-600 border border-[#4a7c23]/10 font-medium">
+              <div className="bg-[#4a7c23]/5 rounded-2xl px-5 py-4 text-sm text-slate-600 border border-[#4a7c23]/10 font-medium text-center">
                 Sent to: <span className="text-[#4a7c23] font-bold">{identifier}</span>
               </div>
               <div className="space-y-2">
@@ -251,6 +278,17 @@ export default function LoginPage() {
                   className="w-full rounded-2xl border-2 border-slate-100 bg-slate-50 px-5 py-5 text-2xl outline-none transition focus:border-[#4a7c23] text-center tracking-[0.5em] font-black text-slate-800"
                   placeholder="000000"
                 />
+              </div>
+
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={() => handleSendOTP(null, step === 'reset_otp_verify' ? 'password-reset' : 'login')}
+                  disabled={loading || resendTimer > 0}
+                  className="text-sm font-bold text-[#4a7c23] hover:text-[#3d6a1c] disabled:text-slate-400 transition"
+                >
+                  {resendTimer > 0 ? `Resend OTP in ${resendTimer}s` : 'Resend OTP'}
+                </button>
               </div>
             </div>
           )}

@@ -133,13 +133,19 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
       }
 
       if (product) {
-        await api.put(`/admin/products/${product._id || product.id}`, data);
+        const res = await api.put(`/admin/products/${product._id || product.id}`, data);
+        if (res.success) {
+          alert(`Product Updated Successfully!\n\nShort Desc: ${res.product.shortDescription || '(Empty)'}\nBenefits: ${res.product.benefits ? 'YES' : 'NO'}`);
+          onSuccess();
+        }
       } else {
         if (!imageFile && !product?.imageUrl) throw new Error('Product image is required.');
-        await api.post('/admin/products', data);
+        const res = await api.post('/admin/products', data);
+        if (res.success) {
+          alert(`New Product Created Successfully!\n\nShort Desc: ${res.product.shortDescription || '(Empty)'}`);
+          onSuccess();
+        }
       }
-      
-      onSuccess();
     } catch (err) {
       setError(err.message || 'Failed to save product. Ensure all required fields are valid.');
     } finally {

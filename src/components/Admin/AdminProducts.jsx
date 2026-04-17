@@ -45,9 +45,11 @@ const AdminProducts = () => {
   const handleToggleStock = async (product) => {
     try {
       const updatedStatus = !product.inStock;
-      const data = await api.put(`/admin/products/${product._id || product.id}/stock`, { inStock: updatedStatus });
-      if (data.success) {
-        setProducts(products.map(p => (p._id || p.id) === (product._id || product.id) ? { ...p, inStock: updatedStatus } : p));
+      const res = await api.put(`/admin/products/${product._id || product.id}/stock`, { inStock: updatedStatus });
+      if (res.success) {
+        alert(`Product Updated Successfully!\n\nShort Desc: ${res.product?.shortDescription || '(Empty)'}\nBenefits: ${res.product?.benefits ? 'YES' : 'NO'}`);
+        // Force a hard reload to ensure the live site clears all caches
+        window.location.reload();
       }
     } catch (err) {
       alert('Failed to update stock status');
@@ -93,6 +95,10 @@ const AdminProducts = () => {
           >
             <RefreshCcw size={12} /> Sync Older Products
           </button>
+          <div className="mt-2 text-[9px] text-slate-400 font-mono">
+            Connected to: {api.defaults?.baseURL || 'https://abhivriddhi-backend.onrender.com/api'} <br/>
+            Last Build: {new Date().toLocaleTimeString()} (Live)
+          </div>
         </div>
         <button 
           onClick={() => { setCurrentProduct(null); setShowModal(true); }}

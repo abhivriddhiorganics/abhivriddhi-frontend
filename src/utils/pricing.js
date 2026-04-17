@@ -3,7 +3,7 @@
  */
 
 export const SHIPPING_THRESHOLD = 999;
-export const SHIPPING_FEE = 50;
+export const SHIPPING_FEE = 80;
 
 /**
  * Helper to calculate shipping fee based on subtotal.

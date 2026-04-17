@@ -2,8 +2,8 @@
  * Shared pricing constants for delivery and shipping.
  */
 
-export const SHIPPING_THRESHOLD = 999;
-export const SHIPPING_FEE = 80;
+export const SHIPPING_THRESHOLD = 0;
+export const SHIPPING_FEE = 0;
 
 /**
  * Helper to calculate shipping fee based on subtotal.

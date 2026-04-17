@@ -170,7 +170,8 @@ export default function CheckoutPage() {
 
   const subtotal = cartItems.reduce((s, i) => s + (i.unitPrice || i.price) * i.qty, 0);
   const shippingFee = calculateShipping(subtotal);
-  const total = subtotal + shippingFee;
+  // TEST MODE: FORCING TOTAL TO 1 RUPEE
+  const total = 1; 
 
   // Guard: Redirect if cart is empty
   useEffect(() => {
@@ -509,6 +510,9 @@ export default function CheckoutPage() {
         </div>
 
         <div className="co-secure">🔒 Secured by Razorpay</div>
+        <div style={{ marginLeft: '12px', background: '#fef3c7', color: '#92400e', padding: '6px 12px', borderRadius: '100px', fontSize: '12px', fontWeight: '800', border: '1px solid #fde68a' }}>
+          ⚠️ TEST MODE: ₹1 PAYMENT ENABLED
+        </div>
         <button onClick={() => navigate(-1)} className="co-back-btn">← Back</button>
       </header>
 

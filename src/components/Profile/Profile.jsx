@@ -214,8 +214,8 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f1f3f6] pt-24 sm:pt-32 lg:pt-[180px] pb-12 font-['Inter'] text-slate-800">
-      <div className="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row gap-6 items-start">
+    <div className="min-h-screen bg-[#f1f3f6] pt-32 sm:pt-32 lg:pt-[180px] pb-12 font-['Inter'] text-slate-800">
+      <div className="w-[97%] max-w-6xl mx-auto flex flex-col lg:flex-row gap-6">
         
         {/* SIDEBAR - Desktop: Vertical, Mobile: Horizontal Scroll */}
         <aside className="w-full lg:w-1/4 lg:sticky lg:top-[130px] z-20">

@@ -6,6 +6,8 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
     name: '',
     category: 'Atta',
     description: '',
+    shortDescription: '',
+    benefits: '',
     inStock: true
   });
   
@@ -26,6 +28,8 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
         name: product.name || '',
         category: product.category || 'Atta',
         description: product.description || '',
+        shortDescription: product.shortDescription || '',
+        benefits: product.benefits || '',
         inStock: product.inStock !== undefined ? product.inStock : true
       });
       // Parse weights if returned as JSON string from backend
@@ -87,6 +91,8 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
       data.append('name', formData.name);
       data.append('category', formData.category);
       data.append('description', formData.description);
+      data.append('shortDescription', formData.shortDescription);
+      data.append('benefits', formData.benefits);
       data.append('price', derivedPrice);
       data.append('inStock', formData.inStock);
       data.append('weights', JSON.stringify(weights));
@@ -226,6 +232,16 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
                   placeholder="e.g., Organic Jowar Atta"
                 />
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Short Description (for cards) <span className="text-red-500">*</span></label>
+                <input 
+                  type="text" required value={formData.shortDescription}
+                  onChange={(e) => setFormData({...formData, shortDescription: e.target.value})}
+                  className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm outline-none focus:border-slate-500 transition-colors shadow-sm"
+                  placeholder="Short catchy line for the product grid..."
+                />
+              </div>
               
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Category <span className="text-red-500">*</span></label>
@@ -249,6 +265,16 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
                   className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm outline-none focus:border-slate-500 transition-colors shadow-sm resize-y"
                   placeholder="Describe the product and its organic benefits..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Key Benefits (one per line)</label>
+                <textarea 
+                  rows="3" value={formData.benefits}
+                  onChange={(e) => setFormData({...formData, benefits: e.target.value})}
+                  className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm outline-none focus:border-slate-500 transition-colors shadow-sm resize-y"
+                  placeholder="Benefit 1&#10;Benefit 2&#10;Benefit 3..."
                 />
               </div>
 

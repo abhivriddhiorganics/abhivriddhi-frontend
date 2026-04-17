@@ -127,7 +127,9 @@ export function ProductsSection() {
                 <div style={styles.cardBody}>
                   <span style={styles.category}>{product.category}</span>
                   <h3 style={styles.name}>{product.name}</h3>
-                  <p style={styles.desc}>{product.description}</p>
+                  <p style={styles.desc}>
+                    {product.shortDescription || (product.description ? (product.description.substring(0, 60) + '...') : '')}
+                  </p>
                   <div style={styles.footer}>
                     <span style={styles.price}>₹{product.price}</span>
                     <button

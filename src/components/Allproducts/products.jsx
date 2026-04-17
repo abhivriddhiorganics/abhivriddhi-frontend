@@ -166,7 +166,9 @@ function ProductCard({ product }) {
 
       <div className="product-info">
         <h3 className="product-name">{product.name}</h3>
-        <p className="product-desc">{product.description}</p>
+        <p className="product-desc">
+          {product.shortDescription || (product.description ? (product.description.substring(0, 60) + '...') : '')}
+        </p>
         <p className="product-price">Price: ₹{product.price}/-</p>
         <button
           className="btn-add-cart"

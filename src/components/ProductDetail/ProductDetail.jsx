@@ -46,7 +46,9 @@ function RelatedCard({ product }) {
       </div>
       <div className="related-info">
         <h4 className="related-name">{product.name}</h4>
-        <p className="related-desc">{product.description}</p>
+        <p className="related-desc">
+          {product.shortDescription || (product.description ? (product.description.substring(0, 60) + '...') : '')}
+        </p>
         <p className="related-price">Price: ₹{product.price}/-</p>
         <button
           className={`related-add-btn ${adding ? 'adding' : ''}`}
@@ -255,9 +257,17 @@ export default function ProductDetail() {
 
             <Accordion title="Benefits">
               <ul className="list-disc pl-5">
-                <li>100% Organic & Stone Ground</li>
-                <li>Rich in essential nutrients and fiber</li>
-                <li>No preservatives or additives</li>
+                {product.benefits ? (
+                  product.benefits.split('\n').filter(b => b.trim()).map((b, i) => (
+                    <li key={i}>{b.trim()}</li>
+                  ))
+                ) : (
+                  <>
+                    <li>100% Organic & Stone Ground</li>
+                    <li>Rich in essential nutrients and fiber</li>
+                    <li>No preservatives or additives</li>
+                  </>
+                )}
               </ul>
             </Accordion>
 

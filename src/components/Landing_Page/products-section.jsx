@@ -104,7 +104,7 @@ export function ProductsSection() {
                   // If we've moved the mouse significantly, it was a drag, not a click
                   const dx = e.clientX - dragStart.current.x;
                   if (Math.abs(dx) > 10) return;
-                  
+
                   navigate(`/product/${product.id}`);
                 }}
               >
@@ -177,11 +177,7 @@ export function ProductsSection() {
           width: 250px !important; /* Slightly larger on desktop */
         }
         .product-scroll-card:hover {
-          transform: translateY(-6px) !important;
           box-shadow: 0 20px 48px rgba(74,124,35,0.18) !important;
-        }
-        .product-scroll-card:hover img {
-          transform: scale(1.07);
         }
 
         /* Mobile Responsive Grid */
@@ -339,7 +335,6 @@ const styles = {
     width: "100%",
     height: "100%",
     objectFit: "cover",
-    transition: "transform 0.4s ease",
   },
   cardBody: {
     padding: "16px",

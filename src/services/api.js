@@ -27,11 +27,20 @@ const request = async (endpoint, options = {}) => {
     headers
   });
 
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.message || 'Server error');
+  // Check if response is JSON to avoid "Unexpected token <" crash
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || `Server error (${response.status})`);
+    }
+    return data;
+  } else {
+    // If we get here, the server likely returned an HTML error page (e.g. 404/500)
+    const errorText = await response.text();
+    console.warn('[API] Non-JSON response received:', errorText.substring(0, 200));
+    throw new Error(`Server Configuration Error: Received ${contentType || 'text/html'} (Status ${response.status}) instead of JSON.`);
   }
-  return data;
 };
 
 export const registerUser = (payload) => request('/auth/register', {

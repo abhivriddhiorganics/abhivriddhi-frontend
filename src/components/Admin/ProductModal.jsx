@@ -97,11 +97,13 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
       const derivedPrice = weights.length > 0 ? Number(weights[0].price) || 0 : 0;
 
       const data = new FormData();
+      
+      // CRITICAL: Append text fields BEFORE files for maximum compatibility with some Multer/Server configs
       data.append('name', formData.name);
       data.append('category', formData.category);
       data.append('description', formData.description);
-      data.append('shortDescription', formData.shortDescription);
-      data.append('benefits', formData.benefits);
+      data.append('shortDescription', formData.shortDescription || '');
+      data.append('benefits', formData.benefits || '');
       data.append('price', derivedPrice);
       data.append('inStock', formData.inStock);
       data.append('weights', JSON.stringify(weights));
@@ -135,8 +137,8 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
       if (product) {
         const res = await api.put(`/admin/products/${product._id || product.id}`, data);
         if (res.success) {
-          alert(`Product Updated Successfully!\n\nShort Desc: ${res.product.shortDescription || '(Empty)'}\nBenefits: ${res.product.benefits ? 'YES' : 'NO'}`);
-          // Force a hard reload to ensure the live site clears all caches
+          alert(`Product Saved Successfully!\n\nShort Desc: ${res.product.shortDescription || '(Empty)'}\nBenefits: ${res.product.benefits ? 'YES' : 'NO'}`);
+          // Force a hard reload to ensure the UI clears all caches
           window.location.reload();
         }
       } else {
@@ -144,7 +146,7 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
         const res = await api.post('/admin/products', data);
         if (res.success) {
           alert(`New Product Created Successfully!\n\nShort Desc: ${res.product.shortDescription || '(Empty)'}`);
-          // Force a hard reload to ensure the live site clears all caches
+          // Force a hard reload to ensure the UI clears all caches
           window.location.reload();
         }
       }

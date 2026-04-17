@@ -25,7 +25,7 @@ export default function ContactUs() {
           </div>
           <div className="info-content">
             <h2>Customer Support</h2>
-            <p className="highlight">+91 95752 15387</p>
+            <p className="highlight">+91 7999598032</p>
             <p>abhivriddhiorganics@gmail.com</p>
           </div>
         </div>
@@ -41,8 +41,8 @@ export default function ContactUs() {
           </div>
           <div className="info-content">
             <h2>Office Address</h2>
-            <p>Betul, Andaman Islands</p>
-            <p>India — 462002</p>
+            <p>C/O SATENDRA SINGH, POST MAUHAR, NEAR SOCIETY OFFICE, NEAR PANCHAYAT OFFICE TIKAITAN TOLA, KOTHI Didaundh, Satna, Madhya Pradesh</p>
+            <p>India — 485666</p>
           </div>
         </div>
 

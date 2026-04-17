@@ -1,7 +1,7 @@
 import { Card, CardContent } from "../ui/card.jsx"
 
 const satendraQuotes = [
-  "Hamare aate ka har dana shuddh hai bilkul waise hi jaise pahle gharon mein peesa jaata tha.",
+  "Hamare atte ka har dana shuddh hai bilkul waise hi jaise pahle gharon mein peesa jaata tha.",
   "Hamare products mein koi milavat nahi sirf wahi jo zameen se aata hai, seedha aapke ghar tak.",
   "Yeh sirf atta nahi, yai ke khane ka sehat aur sachhai se pehle ka ek tareeka hai.",
   "Yeh wahi anaaj hai jo hamari paramparaon ka hissa tha aur ab jo se aapki rasoi mein.",

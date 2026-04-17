@@ -101,7 +101,7 @@
 .centered-section {
   text-align: center;
   max-width: 850px;
-  margin: 0 auto 100px;
+  margin: 0 auto 80px; /* Reduced from 100px */
 }
 
 .decorative-title {
@@ -109,7 +109,7 @@
   font-size: 28px;
   font-weight: 700;
   color: #000;
-  margin-bottom: 30px;
+  margin-bottom: 20px; /* Slightly reduced from 30px */
   display: flex;
   align-items: center;
   gap: 20px;
@@ -132,12 +132,12 @@
 }
 
 .centered-text p {
-  margin-bottom: 24px;
+  margin-bottom: 16px; /* Reduced from 24px */
 }
 
 /* ─── Philosophy Section ──────────────────────────────────── */
 .philosophy-section {
-  padding: 40px 0;
+  padding: 20px 0 0; /* Reduced top/bottom padding significantly */
 }
 
 .quote-text {

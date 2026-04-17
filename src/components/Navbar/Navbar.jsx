@@ -358,7 +358,7 @@ export default function Navbar({ cartCount = 0, onCartClick, cartItems = [], onC
         {/* navbar-links moved OUTSIDE navbar-inner to prevent stacking/glass conflicts on mobile */}
         <div className={`navbar-links ${mobileOpen ? 'open' : ''}`}>
           <NavLink to="/products" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>Products</NavLink>
-          <NavLink to="/makings" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>Makings</NavLink>
+          <NavLink to="/makings" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>About Us</NavLink>
           {/* <NavLink to="/contact" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>Contact</NavLink> */}
 
           {isAuthenticated ? (

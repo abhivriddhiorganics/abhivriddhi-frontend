@@ -10,8 +10,7 @@ const Makings = () => {
 
         {/* Hero Section */}
         <header className="makings-hero">
-          <h1>Abhivriddhi Organics Makings</h1>
-          <p>The Story of Abhivriddhi Organics</p>
+          <h1>The Story of Abhivriddhi Organics</h1>
         </header>
 
         {/* Section 1: Where It Began */}

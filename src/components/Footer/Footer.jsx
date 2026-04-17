@@ -73,7 +73,7 @@ export default function Footer() {
           </div>
           <p className="footer-address">
             Abhivriddhi Organics, Post Mouhar, Near Society Office / Near
-            Panchayat Office, Tikaitan Tola, Kothi, Didaunh Satna Madhya
+            Panchayat Office, Tikaitan Tola, Kothi Didaundh, Satna, Madhya
             Pradesh, 485666
           </p>
           <div className="footer-socials">
@@ -98,9 +98,23 @@ export default function Footer() {
           <ul className="footer-links">
             <li><Link to="/products">Products</Link></li>
             <li><Link to="/contact">Contact Us</Link></li>
-
           </ul>
         </div>
+
+        {/* Policy Links - Desktop Only */}
+        <div className="footer-links-group footer-policies-desktop">
+          <h4 className="footer-links-title">Policies</h4>
+          <ul className="footer-links">
+            <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+            <li><Link to="/shipping-policy">Shipping</Link></li>
+            <li><Link to="/terms">Terms & Conditions</Link></li>
+            <li><Link to="/cancellation-policy">Cancellation & Return Policy</Link></li>
+          </ul>
+        </div>
+        {/* Centered Copyright within the main green area */}
+        {/* <div className="footer-copyright-inner">
+          <p>© 2026 Abhivriddhi Organics. All rights reserved.</p>
+        </div> */}
       </div>
 
       {/* Bottom bar */}
@@ -110,10 +124,18 @@ export default function Footer() {
           <Link to="/shipping-policy">Shipping</Link>
           <Link to="/terms">Terms & Conditions</Link>
           <Link to="/cancellation-policy">Cancellation & Return Policy</Link>
+          <Link to="/admin/login" className="admin-access-link admin-access-link-mobile">Admin Access</Link>
         </div>
-        <div className="footer-meta">
-          <span className="footer-copy">Team Abhivriddhi Organics</span>
-          <Link to="/admin/login" className="admin-access-link">Admin Access</Link>
+
+        <div className="footer-bottom-flex">
+          {/* <div className="footer-powered">
+            <span>Powered by -</span>
+            <img src="/images/inv-logo.png" alt="Powered By" className="powered-logo" />
+          </div> */}
+
+          <span className="footer-copyright-center">© 2026 Abhivriddhi Organics. All rights reserved.</span>
+
+          <Link to="/admin/login" className="admin-access-link admin-access-link-desktop">Admin Access</Link>
         </div>
       </div>
     </footer>

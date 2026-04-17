@@ -44,7 +44,7 @@ function UserDropdown({ user, onLogout, onItemClick }) {
       {isOpen && (
         <div className="user-dropdown-menu absolute right-0 mt-2 w-64 origin-top-right rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
           <div className="py-2 px-2 space-y-1">
-            <div className="px-4 py-2 text-sm font-bold text-slate-500 border-b border-slate-100 mb-2">
+            <div className="px-4 py-2 text-sm font-bold text-slate-500 border-b border-slate-100 mb-2 menu-section-title">
               Your Account
             </div>
             {menuItems.map((item, index) => (
@@ -359,7 +359,7 @@ export default function Navbar({ cartCount = 0, onCartClick, cartItems = [], onC
         <div className={`navbar-links ${mobileOpen ? 'open' : ''}`}>
           <NavLink to="/products" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>Products</NavLink>
           <NavLink to="/makings" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>About Us</NavLink>
-          {/* <NavLink to="/contact" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}>Contact</NavLink> */}
+          <NavLink to="/contact" onClick={() => setMobileOpen(false)} className={({ isActive }) => `nav-link nav-mobile-only ${isActive ? 'nav-link-active' : ''}`}>Contact Us</NavLink>
 
           {isAuthenticated ? (
             <div style={{ display: 'flex' }}>

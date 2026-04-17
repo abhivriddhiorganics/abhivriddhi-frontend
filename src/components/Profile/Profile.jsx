@@ -214,82 +214,76 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f1f3f6] pt-[180px] pb-12 font-['Inter'] text-slate-800">
-      <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row gap-4 items-start">
+    <div className="min-h-screen bg-[#f1f3f6] pt-24 sm:pt-32 lg:pt-[180px] pb-12 font-['Inter'] text-slate-800">
+      <div className="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row gap-6 items-start">
         
-        {/* SIDEBAR */}
-        <aside className="w-full md:w-1/2 lg:w-1/4 flex flex-col gap-4 sticky top-[130px]">
-          <div className="bg-white p-3 flex items-center gap-4 shadow-sm border border-slate-100">
-            <div className="w-12 h-12 rounded-full bg-yellow-400 flex items-center justify-center overflow-hidden">
+        {/* SIDEBAR - Desktop: Vertical, Mobile: Horizontal Scroll */}
+        <aside className="w-full lg:w-1/4 lg:sticky lg:top-[130px] z-20">
+          
+          {/* User Brief - Hide on Mobile, show on Desktop */}
+          <div className="hidden lg:flex bg-white p-4 items-center gap-4 shadow-sm border border-slate-100 mb-4 rounded-xl">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center overflow-hidden shadow-inner">
                <User className="text-white" size={30} />
             </div>
-            <div>
-              <p className="text-[10px] text-slate-500 font-medium">Hello,</p>
-              <h2 className="font-bold text-sm truncate">{userData?.name || 'User'}</h2>
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Hello,</p>
+              <h2 className="font-black text-slate-900 truncate">{userData?.name || 'User'}</h2>
             </div>
           </div>
 
-          <nav className="bg-white shadow-sm border border-slate-100 overflow-hidden">
-            <div 
-              onClick={() => navigate('/orders')}
-              className="flex items-center justify-between p-4 border-b border-slate-50 cursor-pointer hover:bg-slate-50 transition-colors group"
-            >
-              <div className="flex items-center gap-4">
-                <ShoppingBag className="text-blue-600" size={20} />
-                <span className="font-bold text-slate-500 group-hover:text-blue-600 uppercase text-xs tracking-wider">My Orders</span>
+          {/* Nav - Desktop Sidebar, Mobile Pills */}
+          <nav className="flex lg:flex-col bg-white lg:shadow-sm lg:border lg:border-slate-100 rounded-2xl overflow-x-auto lg:overflow-hidden no-scrollbar p-2 lg:p-0">
+            <div className="flex lg:flex-col gap-2 min-w-max lg:min-w-0 w-full">
+              
+              <div 
+                onClick={() => navigate('/orders')}
+                className="flex items-center justify-between p-3 lg:p-4 lg:border-b lg:border-slate-50 cursor-pointer hover:bg-slate-50 bg-white border border-slate-100 lg:border-none rounded-xl lg:rounded-none transition-all group lg:w-full"
+              >
+                <div className="flex items-center gap-3 lg:gap-4">
+                  <ShoppingBag className="text-blue-600" size={18} />
+                  <span className="font-black text-slate-500 group-hover:text-blue-600 uppercase text-[10px] lg:text-xs tracking-widest whitespace-nowrap">My Orders</span>
+                </div>
+                <ChevronRight className="hidden lg:block text-slate-300" size={18} />
               </div>
-              <ChevronRight className="text-slate-300" size={18} />
-            </div>
 
-            <div className="p-4 border-b border-slate-50 bg-white">
-              <div className="flex items-center gap-4 mb-4">
-                <User className="text-blue-600" size={20} />
-                <span className="font-bold text-slate-500 uppercase text-xs tracking-wider">Account Settings</span>
+              <div className="flex lg:flex-col lg:border-b lg:border-slate-50 bg-white">
+                <div className="hidden lg:flex items-center gap-4 p-4">
+                  <User className="text-blue-600" size={20} />
+                  <span className="font-bold text-slate-500 uppercase text-xs tracking-wider">Account Settings</span>
+                </div>
+                
+                <div className="flex lg:flex-col gap-2 pl-0 lg:pl-9 lg:pb-4 p-0">
+                  <button 
+                    onClick={() => setActiveTab('profile')}
+                    className={`px-4 py-2.5 lg:p-0 text-[10px] lg:text-sm rounded-xl lg:rounded-none border lg:border-none whitespace-nowrap transition-all ${activeTab === 'profile' ? 'bg-blue-600 text-white lg:bg-transparent lg:text-blue-600 lg:font-black border-blue-600' : 'bg-white text-slate-600 lg:bg-transparent lg:font-bold border-slate-100'}`}
+                  >
+                    Profile Information
+                  </button>
+                  <button 
+                    onClick={() => setActiveTab('addresses')}
+                    className={`px-4 py-2.5 lg:p-0 text-[10px] lg:text-sm rounded-xl lg:rounded-none border lg:border-none whitespace-nowrap transition-all ${activeTab === 'addresses' ? 'bg-blue-600 text-white lg:bg-transparent lg:text-blue-600 lg:font-black border-blue-600' : 'bg-white text-slate-600 lg:bg-transparent lg:font-bold border-slate-100'}`}
+                  >
+                    Manage Addresses
+                  </button>
+                </div>
               </div>
-              <ul className="pl-9 space-y-4">
-                <li 
-                  onClick={() => setActiveTab('profile')}
-                  className={`text-sm cursor-pointer hover:text-blue-600 transition-colors ${activeTab === 'profile' ? 'text-blue-600 font-bold' : 'text-slate-600'}`}
-                >
-                  Profile Information
-                </li>
-                <li 
-                  onClick={() => setActiveTab('addresses')}
-                  className={`text-sm cursor-pointer hover:text-blue-600 transition-colors ${activeTab === 'addresses' ? 'text-blue-600 font-bold' : 'text-slate-600'}`}
-                >
-                  Manage Addresses
-                </li>
-                <li className="text-sm cursor-not-allowed text-slate-400 font-medium">PAN Card Information</li>
-              </ul>
-            </div>
 
-             <div className="p-4 border-b border-slate-50 bg-white">
-              <div className="flex items-center gap-4 mb-4">
-                <Power className="text-blue-600" size={20} />
-                <span className="font-bold text-slate-500 uppercase text-xs tracking-wider">Payments</span>
+              <div 
+                onClick={() => { localStorage.removeItem('token'); navigate('/login'); }}
+                className="flex items-center gap-3 lg:gap-4 p-3 lg:p-4 cursor-pointer hover:bg-red-50 bg-white border border-slate-100 lg:border-none rounded-xl lg:rounded-none transition-all group"
+              >
+                <Power className="text-blue-600 group-hover:text-red-600" size={18} />
+                <span className="font-black text-slate-500 group-hover:text-red-600 uppercase text-[10px] lg:text-xs tracking-widest whitespace-nowrap">Logout</span>
               </div>
-              <ul className="pl-9 space-y-4">
-                <li className="text-sm cursor-not-allowed text-slate-400 font-medium">Gift Cards</li>
-                <li className="text-sm cursor-not-allowed text-slate-400 font-medium">Saved Cards</li>
-                <li className="text-sm cursor-not-allowed text-slate-400 font-medium">UPI</li>
-              </ul>
-            </div>
-
-            <div 
-              onClick={() => { localStorage.removeItem('token'); navigate('/login'); }}
-              className="flex items-center gap-4 p-4 cursor-pointer hover:bg-red-50 transition-colors group"
-            >
-              <Power className="text-blue-600 group-hover:text-red-600" size={20} />
-              <span className="font-bold text-slate-500 group-hover:text-red-600 uppercase text-xs tracking-wider">Logout</span>
             </div>
           </nav>
         </aside>
 
         {/* MAIN CONTENT AREA */}
-        <main className="flex-1 bg-white shadow-sm border border-slate-100 min-h-[600px] w-full overflow-hidden">
+        <main className="flex-1 bg-white shadow-sm border border-slate-100 min-h-[500px] w-full rounded-2xl md:rounded-[2.5rem] overflow-hidden">
           
           {activeTab === 'profile' ? (
-            <div className="p-6 md:p-8 max-w-xl">
+            <div className="p-5 sm:p-8 lg:p-12 w-full">
               <section className="mb-12">
                 <div className="flex items-center gap-4 mb-6">
                   <h3 className="text-lg font-bold uppercase tracking-tight">Personal Information</h3>
@@ -337,12 +331,12 @@ export default function Profile() {
               <section className="mb-12 pt-8 border-t border-slate-100">
                 <h3 className="text-lg font-bold mb-6">FAQs</h3>
                 <div className="space-y-6">
-                  <div className="space-y-1">
-                    <p className="text-xs font-black uppercase text-slate-800">What happens when I update my email address?</p>
+                  <div className="space-y-2">
+                    <p className="text-[10px] sm:text-xs font-black uppercase text-slate-800 tracking-wider">What happens when I update my email address?</p>
                     <p className="text-xs text-slate-500 leading-relaxed font-medium">Your login email id (or mobile number) changes, likewise. You'll receive all your account related communication on your updated email address.</p>
                   </div>
-                  <div className="space-y-1">
-                    <p className="text-xs font-black uppercase text-slate-800">When will my account be updated with the new details?</p>
+                  <div className="space-y-2">
+                    <p className="text-[10px] sm:text-xs font-black uppercase text-slate-800 tracking-wider">When will my account be updated with the new details?</p>
                     <p className="text-xs text-slate-500 leading-relaxed font-medium">It happens as soon as you confirm the verification and save the changes.</p>
                   </div>
                 </div>
@@ -429,11 +423,11 @@ export default function Profile() {
                )}
 
                {/* ADDRESS LIST */}
-               <div className="space-y-4">
+               <div className="grid grid-cols-1 gap-4">
                  {addresses.length > 0 ? addresses.map(addr => (
-                   <div key={addr._id} className="p-6 border border-slate-100 hover:shadow-md transition-shadow relative group">
+                   <div key={addr._id} className="p-4 sm:p-6 border border-slate-100 hover:shadow-lg rounded-2xl transition-all relative group bg-white">
                       <div className="flex justify-between items-start mb-4">
-                        <span className="px-2 py-0.5 bg-slate-100 text-slate-500 text-[10px] font-black uppercase rounded tracking-wider">
+                        <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[9px] font-black uppercase rounded-lg tracking-widest border border-blue-100/50">
                           {addr.type || 'HOME'}
                         </span>
                         
@@ -441,35 +435,36 @@ export default function Profile() {
                         <div className="relative">
                           <button 
                             onClick={() => setOpenMenuId(openMenuId === addr._id ? null : addr._id)}
-                            className="p-1 text-slate-300 hover:text-slate-600 transition-colors"
+                            className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
                           >
                             <MoreVertical size={20} />
                           </button>
                           {openMenuId === addr._id && (
-                            <div className="absolute right-0 top-full mt-1 bg-white shadow-xl border border-slate-100 rounded-lg py-2 z-10 w-32 animate-in fade-in zoom-in-95 duration-200">
-                              <button onClick={() => handleEditClick(addr)} className="w-full px-4 py-2 text-left text-xs font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-2">
-                                <Edit2 size={12}/> Edit
+                            <div className="absolute right-0 top-full mt-2 bg-white shadow-2xl border border-slate-100 rounded-2xl py-2 z-10 w-40 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300">
+                              <button onClick={() => handleEditClick(addr)} className="w-full px-5 py-3 text-left text-xs font-black text-slate-600 hover:bg-slate-50 flex items-center gap-3 uppercase tracking-tighter transition-colors">
+                                <Edit2 size={14} className="text-blue-600"/> Edit Address
                               </button>
-                              <button onClick={() => handleDeleteAddress(addr._id)} className="w-full px-4 py-2 text-left text-xs font-bold text-red-500 hover:bg-red-50 flex items-center gap-2">
-                                <Trash2 size={12}/> Delete
+                              <button onClick={() => handleDeleteAddress(addr._id)} className="w-full px-5 py-3 text-left text-xs font-black text-red-500 hover:bg-red-50 flex items-center gap-3 uppercase tracking-tighter transition-colors border-t border-slate-50">
+                                <Trash2 size={14}/> Remove
                               </button>
                             </div>
                           )}
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-4 mb-2">
-                        <p className="font-bold text-sm tracking-tight">{addr.name}</p>
-                        <p className="font-bold text-sm tracking-tight text-slate-800">{addr.mobile}</p>
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-3">
+                        <p className="font-black text-slate-900 text-sm tracking-tight">{addr.name}</p>
+                        <div className="h-3 w-[1px] bg-slate-200 hidden sm:block"></div>
+                        <p className="font-bold text-sm text-slate-600">{addr.mobile}</p>
                       </div>
-                      <p className="text-sm text-slate-600 font-medium leading-relaxed max-w-lg">
-                        {addr.addressLine1}, {addr.city}, {addr.state} - <span className="font-bold text-slate-900">{addr.pincode}</span>
+                      <p className="text-xs sm:text-sm text-slate-500 font-medium leading-relaxed">
+                        {addr.addressLine1}, {addr.city}, {addr.state} - <span className="font-black text-slate-900">{addr.pincode}</span>
                       </p>
                    </div>
                  )) : (
-                   <div className="py-20 text-center border-2 border-dashed border-slate-100 bg-slate-50/50 rounded-xl">
-                      <MapPin size={40} className="mx-auto text-slate-200 mb-4" />
-                      <p className="text-slate-400 font-bold">No addresses found.</p>
+                   <div className="py-20 text-center border-2 border-dashed border-slate-200 bg-slate-50/50 rounded-[2rem] animate-pulse">
+                      <MapPin size={40} className="mx-auto text-slate-300 mb-4" />
+                      <p className="text-slate-400 font-black uppercase tracking-widest text-xs">No saved addresses yet</p>
                    </div>
                  )}
                </div>

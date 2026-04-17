@@ -110,18 +110,26 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
         data.append('image', imageFile);
       } else if (product?.imageUrl && !product.imageUrl.startsWith('data:')) {
         data.append('imageUrl', product.imageUrl); 
+        data.append('imagePublicId', product.imagePublicId || '');
       }
 
       if (backImageFile) {
         data.append('backImage', backImageFile);
       } else if (product?.backImageUrl && !product.backImageUrl.startsWith('data:')) {
         data.append('backImageUrl', product.backImageUrl);
+        data.append('backImagePublicId', product.backImagePublicId || '');
       }
 
       if (sideImageFile) {
         data.append('sideImage', sideImageFile);
       } else if (product?.sideImageUrl && !product.sideImageUrl.startsWith('data:')) {
         data.append('sideImageUrl', product.sideImageUrl);
+        data.append('sideImagePublicId', product.sideImagePublicId || '');
+      }
+
+      console.log('[Admin] Sending FormData to API...');
+      for (let [key, value] of data.entries()) {
+        console.log(`  - ${key}:`, value instanceof File ? `File(${value.name})` : value);
       }
 
       if (product) {

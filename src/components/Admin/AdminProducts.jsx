@@ -14,8 +14,8 @@ const AdminProducts = () => {
   const fetchProductsList = async () => {
     try {
       setLoading(true);
-      // Use the public products endpoint for reliability as it is confirmed working
-      const data = await api.get('/products');
+      // Use the public products endpoint with a cache-buster
+      const data = await api.get(`/products?_t=${Date.now()}`);
       if (data.success) {
         setProducts(data.products);
       }

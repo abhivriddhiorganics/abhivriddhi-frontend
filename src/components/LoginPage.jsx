@@ -28,21 +28,12 @@ export default function LoginPage() {
   const setSuccess = (text) => setMessage({ text, type: 'success' });
 
   const getFormattedIdentifier = () => {
-    const id = identifier.trim();
-    if (!id.includes('@') && /^[6-9]\d{9}$/.test(id)) {
-      return `+91${id}`;
-    }
-    return id;
+    return identifier.trim().toLowerCase();
   };
 
   const validateIdentifier = () => {
-    if (!identifier.trim()) {
-      setError('Please enter your email or mobile.');
-      return false;
-    }
-    const id = getFormattedIdentifier();
-    if (!id.includes('@') && !/^\+91[6-9]\d{9}$/.test(id)) {
-      setError('Please enter a valid email or 10-digit mobile.');
+    if (!identifier.trim() || !identifier.includes('@')) {
+      setError('Please enter a valid email.');
       return false;
     }
     return true;
@@ -57,13 +48,13 @@ export default function LoginPage() {
 
     try {
       if (purpose === 'password-reset') {
-        await forgotPassword({ identifier: getFormattedIdentifier(), type: authType });
+        await forgotPassword({ identifier: getFormattedIdentifier(), type: 'email' });
         setStep('reset_otp_verify');
       } else {
-        await sendOTP({ identifier: getFormattedIdentifier(), type: authType, purpose: 'login' });
+        await sendOTP({ identifier: getFormattedIdentifier(), type: 'email', purpose: 'login' });
         setStep('otp_verify');
       }
-      setSuccess(`OTP sent to your ${authType}!`);
+      setSuccess(`OTP sent to your email!`);
     } catch (error) {
       if (error.message.toLowerCase().includes('not found') || error.message.toLowerCase().includes('not registered')) {
         setError('Acccount not found. Please register yourself first.');
@@ -83,7 +74,7 @@ export default function LoginPage() {
       const response = await verifyOTP({
         identifier: getFormattedIdentifier(),
         otp: otp.trim(),
-        type: authType,
+        type: 'email',
         purpose: 'login',
       });
       login(response.token, response.user);
@@ -124,7 +115,7 @@ export default function LoginPage() {
       await resetPassword({
         identifier: getFormattedIdentifier(),
         otp: otp.trim(),
-        type: authType,
+        type: 'email',
         newPassword
       });
       setSuccess('Password updated! Redirecting to login...');
@@ -165,7 +156,7 @@ export default function LoginPage() {
           <p className="mt-2 text-sm text-slate-500 font-medium">
             {step === 'login' && 'Experience nature with every bite.'}
             {step === 'forgot' && 'Enter your details to receive a reset code.'}
-            {(step === 'otp_verify' || step === 'reset_otp_verify') && `Check your ${authType} for a 6-digit code.`}
+            {(step === 'otp_verify' || step === 'reset_otp_verify') && `Check your email for a 6-digit code.`}
             {step === 'new_password' && 'Set a strong password for your account.'}
           </p>
         </div>
@@ -192,13 +183,13 @@ export default function LoginPage() {
           {/* IDENTIFIER FIELD */}
           {(step === 'login' || step === 'forgot') && (
             <div className="space-y-2">
-              <label className="text-sm font-bold text-slate-700 ml-1">Email or Mobile</label>
+              <label className="text-sm font-bold text-slate-700 ml-1">Email Address</label>
               <input
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
                 type="text"
                 className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-4 text-sm outline-none transition focus:border-[#4a7c23] focus:ring-4 focus:ring-[#4a7c23]/5 placeholder:text-slate-400 font-medium"
-                placeholder="you@email.com or 10-digit number"
+                placeholder="you@email.com"
               />
             </div>
           )}

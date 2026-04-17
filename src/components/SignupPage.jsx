@@ -37,10 +37,6 @@ export default function SignupPage() {
     // Client-side validation
     if (name.trim().length < 2) return setError('Name must be at least 2 characters.');
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return setError('Please enter a valid email address.');
-    const mob = getFormattedMobile();
-    if (!/^\+91[6-9]\d{9}$/.test(mob)) {
-      return setError('Please enter a valid 10-digit mobile number.');
-    }
     if (password.length < 6) return setError('Password must be at least 6 characters.');
 
     setLoading(true);
@@ -50,12 +46,11 @@ export default function SignupPage() {
       await registerUser({
         name: name.trim(),
         email: email.trim(),
-        mobile: getFormattedMobile(),
         password,
       });
       setStep('verify');
       setSuccess(
-        'Account created! OTP has been sent to your email and mobile. Enter the OTP to verify your account.'
+        'Account created! OTP has been sent to your email. Enter the OTP to verify your account.'
       );
     } catch (error) {
       setError(error.message || 'Registration failed. Please try again.');
@@ -75,9 +70,9 @@ export default function SignupPage() {
 
     try {
       const response = await verifyOTP({
-        identifier: verifyType === 'email' ? email.trim() : getFormattedMobile(),
+        identifier: email.trim(),
         otp: otp.trim(),
-        type: verifyType,
+        type: 'email',
         purpose: 'registration',
       });
 
@@ -144,20 +139,6 @@ export default function SignupPage() {
               />
             </label>
 
-            <label className="block text-sm font-medium text-slate-700">
-              Mobile Number
-              <div className="relative mt-2">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-500 pointer-events-none">+91</span>
-                <input
-                  value={mobile.replace('+91', '')}
-                  onChange={(e) => setMobile(e.target.value)}
-                  type="tel"
-                  autoComplete="tel"
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 pl-12 pr-4 py-3 text-sm outline-none transition focus:border-[#4a7c23] focus:ring-2 focus:ring-[#4a7c23]/10"
-                  placeholder="9876543210"
-                />
-              </div>
-            </label>
 
             <label className="block text-sm font-medium text-slate-700">
               Password
@@ -183,7 +164,7 @@ export default function SignupPage() {
             <button
               type="submit"
               className="w-full rounded-2xl bg-[#4a7c23] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#3d6a1c] disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={loading || !name || !email || !mobile || !password}
+              disabled={loading || !name || !email || !password}
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -200,35 +181,10 @@ export default function SignupPage() {
         {/* OTP Verification Form */}
         {step === 'verify' && (
           <form className="space-y-5" onSubmit={handleVerify}>
-            {/* Verify via toggle */}
-            <div>
-              <p className="text-sm font-medium text-slate-700 mb-2">Verify using</p>
-              <div className="flex rounded-2xl border border-slate-200 p-1 bg-slate-50">
-                <button
-                  type="button"
-                  onClick={() => { setVerifyType('email'); setOtp(''); }}
-                  className={`flex-1 rounded-xl py-2 text-sm font-semibold transition ${
-                    verifyType === 'email' ? 'bg-white shadow text-[#4a7c23]' : 'text-slate-500'
-                  }`}
-                >
-                  📧 Email
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { setVerifyType('mobile'); setOtp(''); }}
-                  className={`flex-1 rounded-xl py-2 text-sm font-semibold transition ${
-                    verifyType === 'mobile' ? 'bg-white shadow text-[#4a7c23]' : 'text-slate-500'
-                  }`}
-                >
-                  📱 Mobile
-                </button>
-              </div>
-            </div>
-
             <div className="bg-slate-50 rounded-2xl px-4 py-3 text-sm text-slate-600 border border-slate-200">
               Sending OTP to:{' '}
               <span className="font-semibold text-slate-800">
-                {verifyType === 'email' ? email : getFormattedMobile()}
+                {email}
               </span>
             </div>
 

@@ -214,8 +214,14 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f1f3f6] pt-32 sm:pt-32 lg:pt-[180px] pb-12 font-['Inter'] text-slate-800">
-      <div className="w-[97%] max-w-6xl mx-auto flex flex-col lg:flex-row gap-6">
+    <div className="min-h-screen bg-[#f1f3f6] pt-40 sm:pt-44 lg:pt-[180px] pb-12 font-['Inter'] text-slate-800">
+      <div className="w-[94%] max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
+        
+        {/* MOBILE PAGE TITLE - Only visible on small screens */}
+        <div className="lg:hidden mb-2">
+          <h1 className="text-2xl font-black text-slate-900 tracking-tight">My Account</h1>
+          <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Manage your journey</p>
+        </div>
         
         {/* SIDEBAR - Desktop: Vertical, Mobile: Horizontal Scroll */}
         <aside className="w-full lg:w-1/4 lg:sticky lg:top-[130px] z-20">
@@ -232,36 +238,36 @@ export default function Profile() {
           </div>
 
           {/* Nav - Desktop Sidebar, Mobile Pills */}
-          <nav className="flex lg:flex-col bg-white lg:shadow-sm lg:border lg:border-slate-100 rounded-2xl overflow-x-auto lg:overflow-hidden no-scrollbar p-2 lg:p-0">
+          <nav className="flex lg:flex-col bg-white lg:shadow-sm lg:border lg:border-slate-100 rounded-2xl md:rounded-[2rem] overflow-x-auto lg:overflow-hidden no-scrollbar p-2.5 lg:p-0 shadow-sm border border-slate-100">
             <div className="flex lg:flex-col gap-2 min-w-max lg:min-w-0 w-full">
               
               <div 
                 onClick={() => navigate('/orders')}
-                className="flex items-center justify-between p-3 lg:p-4 lg:border-b lg:border-slate-50 cursor-pointer hover:bg-slate-50 bg-white border border-slate-100 lg:border-none rounded-xl lg:rounded-none transition-all group lg:w-full"
+                className="flex items-center justify-between p-3.5 lg:p-5 lg:border-b lg:border-slate-50 cursor-pointer hover:bg-slate-50 bg-white border border-slate-100 lg:border-none rounded-xl lg:rounded-none transition-all group lg:w-full"
               >
                 <div className="flex items-center gap-3 lg:gap-4">
-                  <ShoppingBag className="text-blue-600" size={18} />
-                  <span className="font-black text-slate-500 group-hover:text-blue-600 uppercase text-[10px] lg:text-xs tracking-widest whitespace-nowrap">My Orders</span>
+                  <ShoppingBag className="text-emerald-600" size={18} />
+                  <span className="font-black text-slate-500 group-hover:text-emerald-600 uppercase text-[10px] lg:text-xs tracking-widest whitespace-nowrap">My Orders</span>
                 </div>
                 <ChevronRight className="hidden lg:block text-slate-300" size={18} />
               </div>
 
               <div className="flex lg:flex-col lg:border-b lg:border-slate-50 bg-white">
-                <div className="hidden lg:flex items-center gap-4 p-4">
-                  <User className="text-blue-600" size={20} />
+                <div className="hidden lg:flex items-center gap-4 p-5">
+                  <User className="text-emerald-600" size={20} />
                   <span className="font-bold text-slate-500 uppercase text-xs tracking-wider">Account Settings</span>
                 </div>
                 
-                <div className="flex lg:flex-col gap-2 pl-0 lg:pl-9 lg:pb-4 p-0">
+                <div className="flex lg:flex-col gap-2.5 pl-0 lg:pl-10 lg:pb-5 p-0">
                   <button 
                     onClick={() => setActiveTab('profile')}
-                    className={`px-4 py-2.5 lg:p-0 text-[10px] lg:text-sm rounded-xl lg:rounded-none border lg:border-none whitespace-nowrap transition-all ${activeTab === 'profile' ? 'bg-blue-600 text-white lg:bg-transparent lg:text-blue-600 lg:font-black border-blue-600' : 'bg-white text-slate-600 lg:bg-transparent lg:font-bold border-slate-100'}`}
+                    className={`px-5 py-3 lg:p-0 text-[10px] lg:text-sm rounded-xl lg:rounded-none border lg:border-none whitespace-nowrap transition-all font-black uppercase tracking-widest ${activeTab === 'profile' ? 'bg-emerald-600 text-white lg:bg-transparent lg:text-emerald-600 border-emerald-600' : 'bg-white text-slate-400 lg:bg-transparent lg:text-slate-500 border-slate-100'}`}
                   >
                     Profile Information
                   </button>
                   <button 
                     onClick={() => setActiveTab('addresses')}
-                    className={`px-4 py-2.5 lg:p-0 text-[10px] lg:text-sm rounded-xl lg:rounded-none border lg:border-none whitespace-nowrap transition-all ${activeTab === 'addresses' ? 'bg-blue-600 text-white lg:bg-transparent lg:text-blue-600 lg:font-black border-blue-600' : 'bg-white text-slate-600 lg:bg-transparent lg:font-bold border-slate-100'}`}
+                    className={`px-5 py-3 lg:p-0 text-[10px] lg:text-sm rounded-xl lg:rounded-none border lg:border-none whitespace-nowrap transition-all font-black uppercase tracking-widest ${activeTab === 'addresses' ? 'bg-emerald-600 text-white lg:bg-transparent lg:text-emerald-600 border-emerald-600' : 'bg-white text-slate-400 lg:bg-transparent lg:text-slate-500 border-slate-100'}`}
                   >
                     Manage Addresses
                   </button>
@@ -270,9 +276,9 @@ export default function Profile() {
 
               <div 
                 onClick={() => { localStorage.removeItem('token'); navigate('/login'); }}
-                className="flex items-center gap-3 lg:gap-4 p-3 lg:p-4 cursor-pointer hover:bg-red-50 bg-white border border-slate-100 lg:border-none rounded-xl lg:rounded-none transition-all group"
+                className="flex items-center gap-3 lg:gap-4 p-3.5 lg:p-5 cursor-pointer hover:bg-red-50 bg-white border border-slate-100 lg:border-none rounded-xl lg:rounded-none transition-all group"
               >
-                <Power className="text-blue-600 group-hover:text-red-600" size={18} />
+                <Power className="text-emerald-600 group-hover:text-red-600" size={18} />
                 <span className="font-black text-slate-500 group-hover:text-red-600 uppercase text-[10px] lg:text-xs tracking-widest whitespace-nowrap">Logout</span>
               </div>
             </div>

@@ -4,12 +4,9 @@ import {
   Users, 
   Package, 
   ShoppingBag, 
-  MessageSquare, 
   RefreshCcw, 
   ChevronRight,
-  CheckCircle2,
   AlertCircle,
-  QrCode
 } from 'lucide-react';
 import { 
   AreaChart, 
@@ -20,17 +17,15 @@ import {
   Tooltip, 
   ResponsiveContainer,
 } from 'recharts';
-import api, { adminFetchStats, getWhatsAppStatus, relinkWhatsApp } from '../../services/api';
+import api, { adminFetchStats } from '../../services/api';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
   const [basicStats, setBasicStats] = useState(null);
-  const [waStatus, setWaStatus] = useState({ status: 'Disconnected', qr: null });
   const [recentOrders, setRecentOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
-  const pollingRef = useRef(null);
   const statsRef = useRef(null);
 
   const fetchDashboardData = useCallback(async (isSilent = false) => {
@@ -38,10 +33,9 @@ const AdminDashboard = () => {
       if (!isSilent) setLoading(true);
       else setRefreshing(true);
 
-      const [basic, advanced, wa] = await Promise.all([
+      const [basic, advanced] = await Promise.all([
         api.get('/admin/dashboard'),
-        adminFetchStats(),
-        getWhatsAppStatus().catch(() => ({ status: 'Disconnected', qr: null }))
+        adminFetchStats()
       ]);
 
       if (basic.success) {
@@ -52,7 +46,6 @@ const AdminDashboard = () => {
       if (advanced.success) {
         setStats(advanced.stats);
       }
-      setWaStatus(wa);
     } catch (err) {
       console.error('Failed to load dashboard data', err);
       setError('Connection Error: Metrics might be outdated.');
@@ -62,30 +55,8 @@ const AdminDashboard = () => {
     }
   }, []);
 
-  const handleRelink = async () => {
-    if (!window.confirm('Disconnect current WhatsApp and show new QR?')) return;
-    try {
-      setRefreshing(true);
-      const res = await relinkWhatsApp();
-      if (res.success) {
-        setTimeout(() => fetchDashboardData(true), 1000);
-      }
-    } catch (err) {
-      alert('Relink failed');
-    } finally {
-      setRefreshing(false);
-    }
-  };
-
   useEffect(() => {
     fetchDashboardData();
-    
-    // High-frequency polling for "Real-time" feel
-    pollingRef.current = setInterval(() => {
-      fetchDashboardData(true); 
-    }, 10000); // 10 seconds
-
-    return () => clearInterval(pollingRef.current);
   }, [fetchDashboardData]);
 
   if (loading) {
@@ -175,7 +146,7 @@ const AdminDashboard = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Sales Chart Area */}
-        <div className="lg:col-span-2 bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm space-y-6">
+        <div className="lg:col-span-3 bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm space-y-6">
             <div>
               <h2 className="text-xl font-black text-slate-900 tracking-tight">Revenue Trends</h2>
               <p className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Last 7 Days (₹) </p>
@@ -197,65 +168,6 @@ const AdminDashboard = () => {
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-        </div>
-
-        {/* WhatsApp Connectivity Widget */}
-        <div className="bg-slate-900 rounded-[32px] p-6 text-white overflow-hidden relative flex flex-col justify-between">
-           <div className="relative z-10 space-y-6">
-              <div className="flex items-center justify-between">
-                 <div className="p-3 bg-white/10 rounded-2xl">
-                    <MessageSquare size={24} />
-                 </div>
-                 <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1 ${
-                   waStatus?.status === 'Ready' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 
-                   waStatus?.status === 'Initializing' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' :
-                   'bg-red-500/20 text-red-400 border border-red-500/30'
-                 }`}>
-                    <div className={`w-1.5 h-1.5 rounded-full ${waStatus?.status === 'Ready' ? 'bg-emerald-400 animate-pulse' : 'bg-red-400'}`}></div>
-                    {waStatus?.status}
-                 </div>
-              </div>
-
-              <div>
-                 <h2 className="text-2xl font-black tracking-tight leading-tight">WhatsApp Connectivity</h2>
-                 <p className="text-slate-400 text-sm font-medium mt-1">
-                   {waStatus?.status === 'Ready' 
-                     ? 'System is currently broadcasting OTPs and orders via WhatsApp.' 
-                     : 'Disconnected. Scan the QR code below to enable automated messaging.'}
-                 </p>
-              </div>
-
-              {waStatus?.status !== 'Ready' && waStatus?.qr ? (
-                <div className="bg-white p-3 rounded-2xl w-fit mx-auto shadow-2xl animate-in zoom-in-95 duration-500">
-                   <img src={waStatus.qr} alt="QR Code" className="w-40 h-40" />
-                   <div className="mt-2 text-center text-slate-900 text-[10px] font-black uppercase tracking-tighter">
-                      Scan with WhatsApp
-                   </div>
-                </div>
-              ) : waStatus?.status === 'Ready' ? (
-                <div className="py-8 flex flex-col items-center justify-center text-emerald-400 gap-3">
-                   <div className="relative">
-                     <CheckCircle2 size={48} />
-                     <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-slate-900 rounded-full"></div>
-                   </div>
-                   <div className="text-center">
-                     <p className="text-[10px] font-black uppercase tracking-widest opacity-60">Master Node Linked</p>
-                     <p className="text-sm font-bold text-white mt-1">+{waStatus?.linkedNumber || 'Active Device'}</p>
-                   </div>
-                   <button 
-                     onClick={handleRelink}
-                     className="mt-2 text-[10px] font-black text-white/40 uppercase tracking-widest hover:text-white transition-colors underline underline-offset-4"
-                   >
-                     Relink Different Account
-                   </button>
-                </div>
-              ) : (
-                <div className="py-8 flex flex-col items-center justify-center text-slate-600 animate-pulse font-bold text-sm">
-                   <QrCode size={48} className="mb-2" />
-                   Generating QR...
-                </div>
-              )}
-           </div>
         </div>
       </div>
 

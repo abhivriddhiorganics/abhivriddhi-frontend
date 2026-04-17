@@ -185,8 +185,11 @@ export default function ProductDetail() {
 
   // Thumbnail images
   const thumbnails = [product.imageUrl];
-  if (product.backImageUrl) {
-    thumbnails.push(product.backImageUrl);
+  if (product.backImageUrl || product.backImg) {
+    thumbnails.push(product.backImageUrl || product.backImg);
+  }
+  if (product.sideImageUrl || product.sideImg) {
+    thumbnails.push(product.sideImageUrl || product.sideImg);
   }
 
   // Generate Product Structured Data (JSON-LD)

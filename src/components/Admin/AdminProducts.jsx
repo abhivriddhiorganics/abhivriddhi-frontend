@@ -14,8 +14,7 @@ const AdminProducts = () => {
   const fetchProductsList = async () => {
     try {
       setLoading(true);
-      // Fallback to public products endpoint to ensure visibility
-      const data = await api.get('/products');
+      const data = await api.get('/admin/products');
       if (data.success) {
         setProducts(data.products);
       }

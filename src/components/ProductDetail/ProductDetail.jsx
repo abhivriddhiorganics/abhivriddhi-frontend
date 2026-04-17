@@ -312,7 +312,14 @@ export default function ProductDetail() {
             {/* Total Price */}
             <div className="pd-section">
               <p className="pd-label">Total Price</p>
-              <p className="pd-total-price">₹{totalPrice.toFixed(0)}</p>
+              <div className="flex items-baseline gap-2">
+                <p className="pd-total-price">₹{totalPrice.toFixed(0)}</p>
+                {qty > 1 && (
+                  <span className="text-slate-400 text-sm font-medium">
+                    (₹{unitPrice.toFixed(0)} × {qty})
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* Actions */}

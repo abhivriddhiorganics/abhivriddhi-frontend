@@ -12,6 +12,10 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
   });
   
   const [weights, setWeights] = useState([]);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
+  const [backImageFile, setBackImageFile] = useState(null);
+  const [backImagePreview, setBackImagePreview] = useState('');
   const [sideImageFile, setSideImageFile] = useState(null);
   const [sideImagePreview, setSideImagePreview] = useState('');
   
@@ -88,6 +92,7 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
     setError('');
 
     try {
+      console.log('[Admin] Submitting form data:', formData);
       // Derive price from the first weight variant (lowest price = default)
       const derivedPrice = weights.length > 0 ? Number(weights[0].price) || 0 : 0;
 

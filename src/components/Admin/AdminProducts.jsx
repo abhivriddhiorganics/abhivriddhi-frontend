@@ -78,6 +78,21 @@ const AdminProducts = () => {
         <div>
           <h1 className="text-4xl font-black text-slate-900 tracking-tight">Product Inventory</h1>
           <p className="text-slate-500 font-medium mt-1">Manage your shop items and stock levels</p>
+          <button 
+            onClick={async () => {
+              if (window.confirm('This will sync old products with new data fields (Descriptions, Benefits, Weights). Proceed?')) {
+                try {
+                  await api.get('/admin/migrate-descriptions');
+                  await api.get('/admin/migrate-weights');
+                  alert('Database synced successfully!');
+                  fetchProductsList();
+                } catch(e) { alert('Sync failed.'); }
+              }
+            }}
+            className="mt-3 text-[10px] font-bold uppercase tracking-widest text-[#4a7c23] hover:underline flex items-center gap-1"
+          >
+            <RefreshCcw size={12} /> Sync Older Products
+          </button>
         </div>
         <button 
           onClick={() => { setCurrentProduct(null); setShowModal(true); }}

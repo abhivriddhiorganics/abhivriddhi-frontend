@@ -4,7 +4,7 @@ import './products.css';
 import { fetchProducts } from '../../services/api';
 import { useCart } from '../../context/CartContext';
 import SEO from '../SEO';
-const CATEGORIES = ['All', 'Atta', 'Millets', 'Rice', 'Honey']; // Local copy for UI filters
+const CATEGORIES = ['All', 'Millets', 'Rice', 'Honey']; // Local copy for UI filters
 
 // ─── Filter Dropdown ─────────────────────────────────────────
 // Accepts openId + activeFilter so only one can be open at a time

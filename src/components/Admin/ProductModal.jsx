@@ -4,7 +4,7 @@ import api from '../../services/api';
 const ProductModal = ({ product, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
     name: '',
-    category: 'Atta',
+    category: 'Millets',
     description: '',
     shortDescription: '',
     benefits: '',
@@ -29,7 +29,7 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
     if (product) {
       setFormData({
         name: product.name || '',
-        category: product.category || 'Atta',
+        category: product.category || 'Millets',
         description: product.description || '',
         shortDescription: product.shortDescription || '',
         benefits: product.benefits || '',
@@ -308,7 +308,7 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
                   value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})}
                   className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm outline-none focus:border-slate-500 transition-colors shadow-sm"
                 >
-                  {['Atta', 'Millets', 'Rice', 'Honey', 'Oils', 'Specials'].map(c => <option key={c} value={c}>{c}</option>)}
+                  {['Millets', 'Rice', 'Honey', 'Oils', 'Specials'].map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
 

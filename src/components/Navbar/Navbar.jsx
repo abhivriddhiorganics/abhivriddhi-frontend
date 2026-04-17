@@ -83,7 +83,6 @@ export function AnnouncementBar() {
   const items = [
     '100% Organic',
     'Gluten Free',
-    '15% Discount on first purchase',
     'Chemical Free',
     'No Sugar Added',
   ];

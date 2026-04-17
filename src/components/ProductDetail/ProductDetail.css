@@ -80,7 +80,8 @@
 .pd-main-img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Fit the image full */
+  object-fit: cover;
+  /* Fit the image full */
 }
 
 
@@ -109,7 +110,8 @@
 .pd-thumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Fit thumbnails full */
+  object-fit: cover;
+  /* Fit thumbnails full */
 }
 
 .pd-thumb.active {
@@ -425,7 +427,8 @@
 .related-img-wrap img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Fit the image full */
+  object-fit: cover;
+  /* Fit the image full */
 }
 
 
@@ -533,11 +536,13 @@
   }
 
   .related-img-wrap {
-    padding: 12px;
+    padding: 0; /* Removing mobile padding override */
   }
 
   .related-img-wrap img {
-    max-width: 80px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .related-info {

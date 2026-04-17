@@ -44,7 +44,7 @@ export function FeaturesSection() {
               </div>
 
               {/* Description */}
-              <p className="text-[15px] leading-relaxed text-white/85 font-light tracking-wide">
+              <p className="text-[15px] leading-relaxed text-white/85 font-league-spartan font-medium tracking-wide">
                 {feature.description}
               </p>
 

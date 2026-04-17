@@ -174,6 +174,7 @@ const AdminProducts = () => {
               <tr className="bg-slate-50 text-slate-500 font-bold text-xs uppercase tracking-widest border-b border-slate-100">
                 <th className="px-8 py-5">Product Details</th>
                 <th className="px-8 py-5">Category</th>
+                <th className="px-8 py-5">Description</th>
                 <th className="px-8 py-5">Stock Status</th>
                 <th className="px-8 py-5">Price</th>
                 <th className="px-8 py-5 text-right">Actions</th>
@@ -196,6 +197,11 @@ const AdminProducts = () => {
                     </div>
                   </td>
                   <td className="px-8 py-5 text-sm">{product.category}</td>
+                  <td className="px-8 py-5">
+                    <div className="text-xs text-slate-500 max-w-[200px] truncate" title={product.shortDescription || product.description}>
+                      {product.shortDescription || '—'}
+                    </div>
+                  </td>
                   <td className="px-8 py-5">
                     <button 
                       onClick={() => handleToggleStock(product)}

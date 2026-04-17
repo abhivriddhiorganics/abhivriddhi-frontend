@@ -251,6 +251,12 @@ export default function ProductDetail() {
           <div className="pd-info">
             <h1 className="pd-name">{product.name}</h1>
             
+            {product.shortDescription && (
+              <p className="pd-short-desc text-slate-600 mb-6 leading-relaxed italic">
+                {product.shortDescription}
+              </p>
+            )}
+            
             <Accordion title="Product Description">
               <p>{product.description}</p>
             </Accordion>

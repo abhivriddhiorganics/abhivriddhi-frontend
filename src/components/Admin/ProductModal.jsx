@@ -234,12 +234,12 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Short Description (for cards) <span className="text-red-500">*</span></label>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Card Description (Short) <span className="text-red-500">*</span></label>
                 <input 
                   type="text" required value={formData.shortDescription}
                   onChange={(e) => setFormData({...formData, shortDescription: e.target.value})}
                   className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm outline-none focus:border-slate-500 transition-colors shadow-sm"
-                  placeholder="Short catchy line for the product grid..."
+                  placeholder="Appears on the product cards (grid view)..."
                 />
               </div>
               
@@ -259,12 +259,12 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
             <div className="space-y-6">
               
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Description & Benefits <span className="text-red-500">*</span></label>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Main Description (Long) <span className="text-red-500">*</span></label>
                 <textarea 
                   rows="4" required value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
                   className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm outline-none focus:border-slate-500 transition-colors shadow-sm resize-y"
-                  placeholder="Describe the product and its organic benefits..."
+                  placeholder="Full detailed description for the product page accordion..."
                 />
               </div>
 

@@ -21,11 +21,9 @@ export default function LoginPage() {
   const [message, setMessage] = useState({ text: '', type: 'info' });
   const [loading, setLoading] = useState(false);
 
-  const isEmail = identifier.includes('@');
-  const authType = isEmail ? 'email' : 'mobile';
-
   const setError = (text) => setMessage({ text, type: 'error' });
   const setSuccess = (text) => setMessage({ text, type: 'success' });
+  const setInfo = (text) => setMessage({ text, type: 'info' });
 
   const getFormattedIdentifier = () => {
     return identifier.trim().toLowerCase();
@@ -100,7 +98,18 @@ export default function LoginPage() {
       setSuccess('Logged in successfully!');
       setTimeout(() => navigate(redirectTo, { replace: true }), 1000);
     } catch (error) {
-      setError(error.message || 'Login failed.');
+      if (error.code === 'ACCOUNT_UNVERIFIED') {
+        // Automatically trigger OTP for registration and move to verify step
+        try {
+          await sendOTP({ identifier: getFormattedIdentifier(), type: 'email', purpose: 'registration' });
+          setStep('otp_verify');
+          setInfo('Account not verified yet. We have sent a code to your email to complete your registration.');
+        } catch (sendError) {
+          setError('Account not verified. Failed to send verification code.');
+        }
+      } else {
+        setError(error.message || 'Login failed.');
+      }
     }
     setLoading(false);
   };
@@ -136,7 +145,12 @@ export default function LoginPage() {
     setMessage({ text: '', type: 'info' });
   };
 
-  const msgColor = message.type === 'error' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700';
+  const msgColor =
+    message.type === 'error'
+      ? 'bg-red-50 text-red-700'
+      : message.type === 'success'
+      ? 'bg-green-50 text-green-700'
+      : 'bg-blue-50 text-blue-700';
 
   return (
     <div className="pt-[180px] pb-20 px-4 flex justify-center bg-slate-50/50">

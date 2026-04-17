@@ -16,6 +16,8 @@ export default function SignupPage() {
   const [step, setStep] = useState('register'); // 'register' | 'verify'
   const [message, setMessage] = useState({ text: '', type: 'info' });
   const [loading, setLoading] = useState(false);
+  const [verifyType, setVerifyType] = useState('email'); // 'email' | 'mobile'
+  const [showPassword, setShowPassword] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
 
   useEffect(() => {

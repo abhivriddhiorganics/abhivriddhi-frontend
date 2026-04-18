@@ -8,9 +8,10 @@ export function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src="/images/hero-farmer.jpg"
+          src="https://res.cloudinary.com/dwbvs0uy9/image/upload/v1776465864/hero/hero_farmer_optimized.jpg"
           alt="Farmer in wheat field"
-          className="w-full h-full object-cover object-[center_20%]"
+          className="w-full h-full object-cover object-[80%_20%] md:object-[center_20%]"
+          loading="eager"
           fetchPriority="high"
           decoding="sync"
         />

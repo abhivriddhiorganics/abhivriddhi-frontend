@@ -1,7 +1,7 @@
 import React from 'react';
 import './Makings.css';
-import fieldGreen from '../../assets/makings/field_green.png';
-import harvestScene from '../../assets/makings/harvest_scene.png';
+const fieldGreen = "https://res.cloudinary.com/dwbvs0uy9/image/upload/v1776464797/makings/field_green.png";
+const harvestScene = "https://res.cloudinary.com/dwbvs0uy9/image/upload/v1776464799/makings/harvest_scene.png";
 
 const Makings = () => {
   return (

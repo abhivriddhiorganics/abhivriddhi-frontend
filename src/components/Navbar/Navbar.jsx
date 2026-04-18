@@ -27,7 +27,6 @@ function UserDropdown({ user, onLogout, onItemClick }) {
     ...(isAdmin ? [{ icon: <ShieldAlert size={16} className="text-[#4a7c23]" />, label: 'Admin Panel', link: '/admin' }] : []),
     { icon: <User size={16} />, label: 'My Profile', link: '/profile' },
     { icon: <Package size={16} />, label: 'Orders', link: '/orders' },
-    { icon: <Bell size={16} />, label: 'Notifications', link: '#' },
   ];
 
   return (

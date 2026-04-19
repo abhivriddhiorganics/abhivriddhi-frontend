@@ -9,7 +9,7 @@ const satendraQuotes = [
 
 const meenaQuotes = [
   "Ghar ka khana banana sirf zimmedari nahi, parivaar ki sehat ki zimmedari hoti hai.",
-  "Bahar se sab kuch aasf dikhta hai, par asli cheez hoti hai andar kya jaa raha hai.",
+  "Bahar se sab kuch saaf dikhta hai, par asli cheez hoti hai andar kya jaa raha hai.",
   "Maa hone ke naate, har roti mein sirf swad nahi, parivaar ki sehat bhi hoti hai.",
   "Isliye humne faislaa kiya jo hum apne ghar ke liye choose kare, wahi sabke liye banayenge.",
 ]

@@ -170,5 +170,15 @@ const api = {
   delete: (url) => request(url, { method: 'DELETE' }),
 };
 
+export const handoverSetup = (payload) => request('/admin/handover', {
+  method: 'POST',
+  body: JSON.stringify(payload)
+});
+
+export const cleanSlate = (secret) => request('/admin/clean-slate', {
+  method: 'POST',
+  body: JSON.stringify({ secret })
+});
+
 export default api;
 

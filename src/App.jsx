@@ -36,6 +36,7 @@ const AdminLogin = lazy(() => import('./components/Admin/AdminLogin'));
 const AdminSubAdmins = lazy(() => import('./components/Admin/AdminSubAdmins'));
 const AdminWhatsApp = lazy(() => import('./components/Admin/AdminWhatsApp'));
 const AdminSettings = lazy(() => import('./components/Admin/AdminSettings'));
+const HandoverPage = lazy(() => import('./components/Admin/HandoverPage'));
 
 function MainLayout({ children }) {
   const { cartItems, cartOpen, setCartOpen, updateQty, removeFromCart, totalItems } = useCart();
@@ -139,6 +140,7 @@ function App() {
                   </ProtectedRoute>
                 } />
                 <Route path="/contact" element={<ContactUs />} />
+                <Route path="/handover" element={<HandoverPage />} />
 
                 {/* Admin Routes */}
                 <Route path="/admin" element={

@@ -117,6 +117,12 @@ export default function Footer() {
         </div> */}
       </div>
 
+      {/* Admin and Powered By (Above White Line) */}
+      <div className="footer-admin-powered">
+        <Link to="/admin/login" className="admin-access-link" style={{ margin: 0 }}>Admin Access</Link>
+        <a href="https://inxspotagency.framer.website/" target="_blank" rel="noopener noreferrer" style={{ color: '#ffffff', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', textDecoration: 'none' }}>Powered by <strong>INSPOT</strong></a>
+      </div>
+
       {/* Bottom bar */}
       <div className="footer-bottom">
         <div className="footer-bottom-links">
@@ -124,7 +130,6 @@ export default function Footer() {
           <Link to="/shipping-policy">Shipping</Link>
           <Link to="/terms">Terms & Conditions</Link>
           <Link to="/cancellation-policy">Cancellation & Return Policy</Link>
-          <Link to="/admin/login" className="admin-access-link admin-access-link-mobile">Admin Access</Link>
         </div>
 
         <div className="footer-bottom-flex">
@@ -134,8 +139,6 @@ export default function Footer() {
           </div> */}
 
           <span className="footer-copyright-center">© 2026 Abhivriddhi Organics. All rights reserved.</span>
-
-          <Link to="/admin/login" className="admin-access-link admin-access-link-desktop">Admin Access</Link>
         </div>
       </div>
     </footer>

@@ -120,7 +120,7 @@ export default function Footer() {
       {/* Admin and Powered By (Above White Line) */}
       <div className="footer-admin-powered">
         <Link to="/admin/login" className="admin-access-link" style={{ margin: 0 }}>Admin Access</Link>
-        <a href="https://inxspotagency.framer.website/" target="_blank" rel="noopener noreferrer" style={{ color: '#ffffff', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', textDecoration: 'none' }}>Powered by <strong>INSPOT</strong></a>
+        <a href="https://inxspotagency.framer.website/" target="_blank" rel="noopener noreferrer" style={{ color: '#ffffff', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', textDecoration: 'none' }}>Powered by <strong>INXSPOT</strong></a>
       </div>
 
       {/* Bottom bar */}

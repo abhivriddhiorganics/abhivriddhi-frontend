@@ -277,11 +277,14 @@ export default function AllProducts() {
           <div className="product-grid">
             {loading ? (
               [...Array(6)].map((_, i) => (
-                <div key={i} className="product-card skeleton shadow-none">
-                  <div className="product-img-wrap bg-gray-100 animate-pulse h-48 rounded-xl" />
-                  <div className="p-4 space-y-3">
-                    <div className="h-4 bg-gray-100 rounded animate-pulse w-3/4" />
-                    <div className="h-3 bg-gray-100 rounded animate-pulse w-1/2" />
+                <div key={i} className="product-card border border-gray-100 shadow-sm overflow-hidden animate-pulse bg-white">
+                  <div className="product-img-wrap bg-slate-200 h-48 w-full" />
+                  <div className="p-4 flex flex-col gap-3">
+                    <div className="h-5 bg-slate-200 rounded w-3/4" />
+                    <div className="h-3 bg-slate-200 rounded w-full mt-1" />
+                    <div className="h-3 bg-slate-200 rounded w-5/6" />
+                    <div className="h-4 bg-slate-200 rounded w-1/3 mt-2" />
+                    <div className="h-10 bg-slate-200 rounded-full w-full mt-2" />
                   </div>
                 </div>
               ))

@@ -91,8 +91,18 @@ export function ProductsSection() {
           >
             {loading ? (
               [...Array(4)].map((_, i) => (
-                <div key={i} style={{ ...styles.card, background: '#f8fafc', animate: 'pulse' }}>
-                  <div style={{ ...styles.imgWrap, background: '#f1f5f9' }} />
+                <div key={i} style={{ ...styles.card, overflow: 'hidden' }} className="animate-pulse">
+                  <div style={{ ...styles.imgWrap, backgroundColor: '#e2e8f0' }} />
+                  <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div style={{ height: '10px', width: '30%', backgroundColor: '#e2e8f0', borderRadius: '4px' }} />
+                    <div style={{ height: '16px', width: '80%', backgroundColor: '#e2e8f0', borderRadius: '4px' }} />
+                    <div style={{ height: '12px', width: '100%', backgroundColor: '#e2e8f0', borderRadius: '4px', marginTop: '6px' }} />
+                    <div style={{ height: '12px', width: '60%', backgroundColor: '#e2e8f0', borderRadius: '4px', marginBottom: '8px' }} />
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
+                      <div style={{ height: '18px', width: '30%', backgroundColor: '#e2e8f0', borderRadius: '4px' }} />
+                      <div style={{ height: '28px', width: '40%', backgroundColor: '#e2e8f0', borderRadius: '999px' }} />
+                    </div>
+                  </div>
                 </div>
               ))
             ) : products.map((product, i) => (

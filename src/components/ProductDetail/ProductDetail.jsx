@@ -5,6 +5,7 @@ import { useCart } from '../../context/CartContext';
 import Navbar, { CartDrawer } from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import SEO from '../SEO';
+import ReviewSection from './ReviewSection';
 import './ProductDetail.css';
 
 const WEIGHT_OPTIONS = ['500gm', '750gm', '1Kg'];
@@ -358,6 +359,9 @@ export default function ProductDetail() {
             )}
           </div>
         </div>
+
+        {/* ── Customer Reviews ── */}
+        <ReviewSection productId={id} />
 
         {/* ── You May Also Like ── */}
         {related.length > 0 && (

@@ -126,6 +126,20 @@ export const fetchProducts = (params = {}) => {
 
 export const fetchProductById = (id) => request(`/products/${id}`);
 
+export const fetchProductReviews = (productId) => request(`/products/${productId}/reviews`);
+export const fetchRandomReviews = () => request('/products/reviews/random');
+export const fetchAllReviews = () => request('/products/reviews/all');
+
+
+export const submitReview = (productId, payload) => request(`/products/${productId}/reviews`, {
+  method: 'POST',
+  body: payload instanceof FormData ? payload : JSON.stringify(payload)
+});
+
+export const deleteReview = (productId, reviewId) => request(`/products/${productId}/reviews/${reviewId}`, {
+  method: 'DELETE'
+});
+
 export const adminAddProduct = (payload) => request('/admin/products', {
   method: 'POST',
   body: JSON.stringify(payload)

@@ -25,7 +25,7 @@ export default function ContactUs() {
           </div>
           <div className="info-content">
             <h2>Customer Support</h2>
-            <p className="highlight">+91 7999598032</p>
+            <p className="highlight">+91 9131124629</p>
             <p>abhivriddhiorganics@gmail.com</p>
           </div>
         </div>

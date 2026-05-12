@@ -104,8 +104,13 @@ export default function TestimonialSection() {
               </div>
 
               {/* Card Body */}
-              <div className="relative bg-gradient-to-br from-[#1b8e4e] to-[#125a32] rounded-[40px] p-6 md:p-10 pt-12 text-white shadow-2xl flex flex-col items-center text-center h-full w-full overflow-hidden">
+              <div className="relative group bg-gradient-to-br from-[#1b8e4e] to-[#125a32] rounded-[40px] p-6 md:p-10 pt-12 text-white shadow-2xl flex flex-col items-center text-center h-full w-full overflow-hidden">
                 
+                {/* Subtle Leaf Decoration */}
+                <div className="absolute -bottom-4 -right-4 text-[70px] opacity-[0.08] grayscale pointer-events-none transition-transform duration-700 group-hover:scale-110 group-hover:rotate-12">
+                  🌿
+                </div>
+
                 {/* Stars */}
                 <div className="flex gap-1 mb-2 md:mb-4 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
                   {[1, 2, 3, 4, 5].map((n) => (

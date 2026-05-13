@@ -89,12 +89,7 @@ function MainLayout({ children }) {
           onRemove={removeFromCart}
           onCheckout={() => {
             setCartOpen(false);
-            const token = localStorage.getItem('token');
-            if (!token) {
-              navigate('/login', { state: { from: '/checkout' } });
-            } else {
-              navigate('/checkout');
-            }
+            navigate('/checkout');
           }}
         />
       )}
@@ -124,11 +119,7 @@ function App() {
                     <Profile />
                   </ProtectedRoute>
                 } />
-                <Route path="/checkout" element={
-                  <ProtectedRoute>
-                    <CheckoutPage />
-                  </ProtectedRoute>
-                } />
+                <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/shipping-policy" element={<ShippingPolicy />} />

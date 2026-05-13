@@ -1,9 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { calculateShipping } from '../utils/pricing';
 
 export default function CartPage() {
   const { cartItems, updateQty, removeFromCart } = useCart();
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const totalPrice = cartItems.reduce((sum, item) => sum + (item.unitPrice || item.price) * item.qty, 0);
   const shippingFee = calculateShipping(totalPrice);
   const finalTotal = totalPrice + shippingFee;
@@ -119,12 +122,12 @@ export default function CartPage() {
                 <span>Total</span>
                 <span>₹{finalTotal.toLocaleString('en-IN')}/-</span>
               </div>
-              <Link
-                to="/checkout"
+              <button
+                onClick={() => navigate('/checkout')}
                 className="mt-6 flex w-full justify-center rounded-full bg-[#4a7c23] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#3d6a1c]"
               >
                 Proceed to Checkout
-              </Link>
+              </button>
             </aside>
           </div>
         )}

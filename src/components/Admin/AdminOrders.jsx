@@ -38,6 +38,22 @@ const AdminOrders = () => {
     }
   };
 
+  const handleDeleteOrder = async (orderId) => {
+    if (!window.confirm('Are you sure you want to permanently delete this order? This action cannot be undone.')) return;
+    
+    try {
+      const data = await api.delete(`/admin/orders/${orderId}`);
+      if (data.success) {
+        setOrders(orders.filter(o => o._id !== orderId));
+        if (selectedOrder && selectedOrder._id === orderId) {
+          setSelectedOrder(null);
+        }
+      }
+    } catch (err) {
+      alert('Failed to delete order');
+    }
+  };
+
   const filteredOrders = orders.filter(o => 
     o.shippingAddress?.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     o._id.toLowerCase().includes(searchTerm.toLowerCase())
@@ -98,6 +114,7 @@ const AdminOrders = () => {
               </div>
 
               <div className="flex items-center justify-between gap-4">
+              <div className="flex flex-col items-start gap-2">
                 <div className={`px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest border ${
                   ['Delivered', 'Completed'].includes(order.orderStatus) ? 'bg-green-50 text-green-700 border-green-100' : 
                   ['Cancelled', 'Failed'].includes(order.orderStatus) ? 'bg-red-50 text-red-700 border-red-100' :
@@ -105,6 +122,16 @@ const AdminOrders = () => {
                 }`}>
                   {order.orderStatus}
                 </div>
+                {order.paymentInfo?.status === 'Completed' ? (
+                  <div className="px-2 py-0.5 rounded-md text-[9px] font-black bg-blue-50 text-blue-600 border border-blue-100 uppercase tracking-widest">
+                    ✓ PAID
+                  </div>
+                ) : (
+                  <div className="px-2 py-0.5 rounded-md text-[9px] font-black bg-gray-50 text-gray-500 border border-gray-200 uppercase tracking-widest">
+                    UNPAID
+                  </div>
+                )}
+              </div>
                 <button 
                   onClick={() => setSelectedOrder(order)}
                   className="px-4 py-2 bg-gray-900 text-white rounded-lg font-black text-[10px] uppercase tracking-widest shadow-sm"
@@ -150,13 +177,24 @@ const AdminOrders = () => {
                     <div className="text-xs text-gray-400 font-bold mt-1 uppercase tracking-widest">{new Date(order.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric'})}</div>
                   </td>
                   <td className="px-10 py-7">
-                    <span className={`px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest border shadow-sm ${
-                      ['Delivered', 'Completed'].includes(order.orderStatus) ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 
-                      ['Cancelled', 'Failed'].includes(order.orderStatus) ? 'bg-red-50 text-red-700 border-red-100' :
-                      'bg-amber-50 text-amber-700 border-amber-100'
-                    }`}>
-                      {order.orderStatus}
-                    </span>
+                    <div className="flex flex-col items-start gap-2">
+                      <span className={`px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest border shadow-sm ${
+                        ['Delivered', 'Completed'].includes(order.orderStatus) ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 
+                        ['Cancelled', 'Failed'].includes(order.orderStatus) ? 'bg-red-50 text-red-700 border-red-100' :
+                        'bg-amber-50 text-amber-700 border-amber-100'
+                      }`}>
+                        {order.orderStatus}
+                      </span>
+                      {order.paymentInfo?.status === 'Completed' ? (
+                        <span className="px-2 py-0.5 rounded-md text-[9px] font-black bg-blue-50 text-blue-600 border border-blue-100 uppercase tracking-widest">
+                          ✓ PAID
+                        </span>
+                      ) : (
+                        <span className="px-2 py-0.5 rounded-md text-[9px] font-black bg-gray-50 text-gray-500 border border-gray-200 uppercase tracking-widest">
+                          UNPAID
+                        </span>
+                      )}
+                    </div>
                   </td>
                   <td className="px-10 py-7 text-right">
                     <button 
@@ -264,7 +302,15 @@ const AdminOrders = () => {
               >
                 <span>📄</span> Download Invoice
               </a>
-              <button onClick={() => setSelectedOrder(null)} className="px-10 py-4 bg-gray-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-gray-800 transition-all">Close Summary</button>
+              <div className="flex gap-3 ml-auto">
+                <button 
+                  onClick={() => handleDeleteOrder(selectedOrder._id)} 
+                  className="px-6 py-4 bg-red-50 text-red-600 border border-red-100 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all flex items-center gap-2"
+                >
+                  <span>🗑️</span> Delete
+                </button>
+                <button onClick={() => setSelectedOrder(null)} className="px-10 py-4 bg-gray-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-gray-800 transition-all">Close Summary</button>
+              </div>
             </div>
           </div>
         </div>

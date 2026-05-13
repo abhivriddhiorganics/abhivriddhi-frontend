@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { registerUser, verifyOTP } from '../services/api';
+import { registerUser, verifyOTP, sendOTP } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 export default function SignupPage() {
@@ -43,11 +43,11 @@ export default function SignupPage() {
   };
 
   const handleRegister = async (event) => {
-    event.preventDefault();
+    if (event) event.preventDefault();
 
     // Client-side validation
     if (name.trim().length < 2) return setError('Name must be at least 2 characters.');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return setError('Please enter a valid email address.');
+    if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return setError('Please enter a valid email address.');
     if (!/^[6-9]\d{9}$/.test(mobile.trim())) return setError('Please enter a valid 10-digit mobile number.');
     if (password.length < 6) return setError('Password must be at least 6 characters.');
 
@@ -58,15 +58,16 @@ export default function SignupPage() {
       await registerUser({
         name: name.trim(),
         email: email.trim(),
-        mobile: mobile.trim(),
+        mobile: getFormattedMobile(),
         password,
       });
+
       setStep('verify');
       setResendTimer(60);
-      setSuccess(
-        'Account created! OTP has been sent to your email. Enter the OTP to verify your account.'
-      );
+      setVerifyType('email');
+      setSuccess('Registration successful! Check your email and WhatsApp for the verification OTP.');
     } catch (error) {
+      console.error("Registration error:", error);
       setError(error.message || 'Registration failed. Please try again.');
     }
 
@@ -84,7 +85,7 @@ export default function SignupPage() {
 
     try {
       const response = await verifyOTP({
-        identifier: email.trim(),
+        identifier: email.trim().toLowerCase(),
         otp: otp.trim(),
         type: 'email',
         purpose: 'registration',
@@ -94,6 +95,7 @@ export default function SignupPage() {
       setSuccess('Account verified! Welcome to Abhivriddhi Organics 🎉');
       setTimeout(() => navigate(redirectTo, { replace: true }), 1200);
     } catch (error) {
+      console.error("Verification error:", error);
       setError(error.message || 'Verification failed. Please try again.');
     }
 
@@ -102,20 +104,7 @@ export default function SignupPage() {
 
   const handleResendOTP = async () => {
     if (resendTimer > 0) return;
-    
-    setLoading(true);
-    try {
-      await sendOTP({
-        identifier: email.trim(),
-        type: 'email',
-        purpose: 'registration'
-      });
-      setResendTimer(60);
-      setSuccess('A new OTP has been sent to your email.');
-    } catch (error) {
-      setError(error.message || 'Failed to resend OTP.');
-    }
-    setLoading(false);
+    await handleRegister(null);
   };
 
   const msgColor =
@@ -140,7 +129,7 @@ export default function SignupPage() {
           <p className="mt-2 text-sm text-slate-500">
             {step === 'register'
               ? 'Join Abhivriddhi Organics for fresh, pure products'
-              : `OTP sent to your ${verifyType}. Please enter it below.`}
+              : `OTP sent to your email & WhatsApp. Please enter it below.`}
           </p>
         </div>
 
@@ -230,7 +219,7 @@ export default function SignupPage() {
             <div className="bg-slate-50 rounded-2xl px-4 py-3 text-sm text-slate-600 border border-slate-200">
               Sending OTP to:{' '}
               <span className="font-semibold text-slate-800">
-                {email}
+                {email} & WhatsApp ({mobile})
               </span>
             </div>
 
@@ -286,14 +275,14 @@ export default function SignupPage() {
 
         {/* Message Box */}
         {message.text && (
-          <div className={`mt-5 rounded-2xl px-4 py-3 text-sm ${msgColor}`}>
+          <div className={`mt-6 rounded-2xl px-5 py-4 text-sm font-semibold animate-in slide-in-from-bottom-2 duration-300 ${msgColor}`}>
             {message.text}
           </div>
         )}
 
-        <p className="mt-6 text-center text-sm text-slate-500">
+        <p className="mt-8 text-center text-sm font-medium text-slate-500">
           Already have an account?{' '}
-          <Link to="/login" className="font-semibold text-[#4a7c23] hover:text-[#3d6a1c]">
+          <Link to="/login" className="font-extrabold text-[#4a7c23] hover:text-[#3d6a1c] transition underline decoration-2 underline-offset-4">
             Sign in
           </Link>
         </p>

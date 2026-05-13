@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
 import { GET_INVOICE_URL } from '../../services/api';
 import { calculateShipping } from '../../utils/pricing';
 
@@ -150,6 +151,7 @@ function FormField({ label, required, error, children }) {
 
 export default function CheckoutPage() {
   const { cartItems, clearCart } = useCart();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);

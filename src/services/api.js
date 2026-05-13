@@ -58,6 +58,21 @@ export const verifyOTP = (payload) => request('/auth/verify-otp', {
   body: JSON.stringify(payload)
 });
 
+export const loginWithFirebase = (idToken) => request('/auth/firebase/login', {
+  method: 'POST',
+  body: JSON.stringify({ idToken })
+});
+
+export const registerWithFirebase = (payload) => request('/auth/firebase/register', {
+  method: 'POST',
+  body: JSON.stringify(payload)
+});
+
+export const resetPasswordWithFirebase = (payload) => request('/auth/firebase/reset', {
+  method: 'POST',
+  body: JSON.stringify(payload)
+});
+
 export const loginWithPassword = (payload) => request('/auth/login', {
   method: 'POST',
   body: JSON.stringify(payload)
@@ -128,7 +143,11 @@ export const fetchProductById = (id) => request(`/products/${id}`);
 
 export const adminAddProduct = (payload) => request('/admin/products', {
   method: 'POST',
-  body: JSON.stringify(payload)
+  body: payload
+});
+
+export const adminDeleteOrder = (id) => request(`/admin/orders/${id}`, {
+  method: 'DELETE'
 });
 
 export const adminUpdateProduct = (id, payload) => request(`/admin/products/${id}`, {

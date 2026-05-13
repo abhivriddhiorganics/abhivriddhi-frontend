@@ -66,8 +66,7 @@ export default function LoginPage() {
     setMessage({ text: '', type: 'info' });
 
     try {
-      const isEmail = identifier.includes('@');
-      const type = isEmail ? 'email' : 'mobile';
+      const type = identifier.includes('@') ? 'email' : 'mobile';
       
       if (purpose === 'password-reset') {
         await forgotPassword({ identifier: getFormattedIdentifier(), type });
@@ -77,9 +76,9 @@ export default function LoginPage() {
         setStep('otp_verify');
       }
       setResendTimer(60);
-      setSuccess(`OTP sent to your ${type}!`);
+      setSuccess(`OTP sent to your registered email!`);
     } catch (error) {
-      if (error.message.toLowerCase().includes('not found') || error.message.toLowerCase().includes('not registered')) {
+      if (error.message && (error.message.toLowerCase().includes('not found') || error.message.toLowerCase().includes('not registered'))) {
         setError('Account not found. Please register yourself first.');
       } else {
         setError(error.message || 'Failed to send OTP.');
@@ -94,16 +93,19 @@ export default function LoginPage() {
 
     setLoading(true);
     try {
+      const type = identifier.includes('@') ? 'email' : 'mobile';
+      
       const response = await verifyOTP({
         identifier: getFormattedIdentifier(),
         otp: otp.trim(),
-        type: 'email',
+        type,
         purpose: 'login',
       });
       login(response.token, response.user);
       setSuccess('Logged in successfully!');
       setTimeout(() => navigate(redirectTo, { replace: true }), 1000);
     } catch (error) {
+      console.error("Verification error:", error);
       setError(error.message || 'OTP verification failed.');
     }
     setLoading(false);
@@ -182,6 +184,29 @@ export default function LoginPage() {
   return (
     <div className="pt-[180px] pb-20 px-4 flex justify-center bg-slate-50/50">
       <div className="w-full max-w-md rounded-3xl bg-white p-10 shadow-xl shadow-slate-200 border border-slate-100">
+
+        {/* Guest Checkout Banner (Only if coming from cart) */}
+        {redirectTo === '/checkout' && step === 'login' && (
+          <div className="mb-8 rounded-2xl bg-gradient-to-r from-[#f0fdf4] to-[#f8fafc] p-6 border border-[#bbf7d0] shadow-sm animate-in slide-in-from-top-4">
+            <h2 className="text-lg font-bold text-[#166534] mb-2 flex items-center gap-2">
+              <span>🛒</span> Checkout as a Guest
+            </h2>
+            <p className="text-sm text-slate-600 mb-4 font-medium leading-relaxed">
+              Don't want to create an account? You can proceed straight to the delivery and payment page.
+            </p>
+            <button 
+              onClick={() => navigate('/checkout')}
+              className="w-full rounded-xl bg-[#1a3d0c] px-4 py-3 text-sm font-bold text-white transition-all hover:bg-[#2d5a15] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#1a3d0c]/20"
+            >
+              Continue as Guest
+            </button>
+            <div className="mt-8 flex items-center gap-4">
+              <div className="h-px flex-1 bg-slate-200"></div>
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">OR LOG IN</span>
+              <div className="h-px flex-1 bg-slate-200"></div>
+            </div>
+          </div>
+        )}
 
         {/* Step Header */}
         <div className="mb-8 text-center sm:text-left transition-all duration-300">

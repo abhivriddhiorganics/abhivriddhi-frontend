@@ -113,3 +113,13 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+@layer utilities {
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

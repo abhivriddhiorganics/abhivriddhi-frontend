@@ -37,7 +37,7 @@ const ShippingPolicy = () => {
         <div className="policy-contact">
           <p>
             For any queries, you may contact us at:<br />
-            <strong>WhatsApp/Phone:</strong> 7999598032<br />
+            <strong>WhatsApp/Phone:</strong> 9131124629<br />
             <strong>Email:</strong> <a href="mailto:abhivriddhiorganics@gmail.com">abhivriddhiorganics@gmail.com</a>
           </p>
         </div>

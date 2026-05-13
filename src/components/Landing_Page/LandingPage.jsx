@@ -2,6 +2,7 @@ import { HeroSection } from "./hero-section.jsx"
 import { FeaturesSection } from "./features-section.jsx"
 import { PillarsSection } from "./pillars-section.jsx"
 import { ProductsSection } from "./products-section.jsx"
+import TestimonialSection from "./TestimonialSection.jsx"
 import SEO from "../SEO"
 
 export function LandingPage() {
@@ -17,6 +18,7 @@ export function LandingPage() {
       <FeaturesSection />
       <ProductsSection />
       <PillarsSection />
+      <TestimonialSection />
     </>
   )
 }

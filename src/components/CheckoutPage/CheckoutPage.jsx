@@ -225,30 +225,43 @@ export default function CheckoutPage() {
     navigator.geolocation.getCurrentPosition(async (position) => {
       try {
         const { latitude, longitude } = position.coords;
-        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+        // Increased zoom to 18 for more specific results (house numbers)
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`);
         const data = await res.json();
 
         if (data && data.address) {
-          const { city, state, postcode, suburb, road } = data.address;
+          const { city, state, postcode, suburb, road, neighbourhood, house_number, town, village, county } = data.address;
+          
+          // Construct a more detailed address line
+          const specificDetails = [house_number, road, neighbourhood, suburb].filter(Boolean).join(', ');
+          
           setForm(prev => ({
             ...prev,
-            city: city || data.address.town || data.address.village || '',
+            city: city || town || village || county || '',
             state: state || '',
-            pincode: postcode || '',
-            addressLine: `${road || ''} ${suburb || ''}`.trim()
+            pincode: postcode?.replace(/\s/g, '').slice(0, 6) || '',
+            addressLine: specificDetails || data.display_name.split(',')[0] || ''
           }));
+          
           setErrors(prev => ({ ...prev, city: '', state: '', pincode: '', addressLine: '' }));
-          if (postcode && /^\d{6}$/.test(postcode)) setPinVerified(true);
+          if (postcode && /^\d{6}$/.test(postcode.replace(/\s/g, ''))) {
+            setPinVerified(true);
+          }
         }
       } catch (err) {
         console.error('Rev-Geo failed:', err);
-        alert('Could not fetch address details for your location.');
+        alert('Could not fetch specific address. Please enter details manually.');
       } finally {
         setGeoLoading(false);
       }
     }, (error) => {
       setGeoLoading(false);
-      alert('Location access denied. Please enable location permissions.');
+      console.error('GPS Error:', error);
+      alert('Location access unavailable. Please enter your address manually.');
+    }, {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
     });
   };
 

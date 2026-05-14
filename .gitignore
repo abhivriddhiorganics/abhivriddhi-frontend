@@ -32,3 +32,4 @@ dist-ssr
 
 # Ignore Backend (Separate Repo)
 /backend/
+config/firebase-service-account.json

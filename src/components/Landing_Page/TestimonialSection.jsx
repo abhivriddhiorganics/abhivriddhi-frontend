@@ -127,7 +127,9 @@ export default function TestimonialSection() {
 
                 {/* Quotes and Content */}
                 <div className="flex flex-col items-center flex-1 justify-between w-full overflow-hidden">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="opacity-40 mb-2 md:mb-4 rotate-180 shrink-0">
+
+
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="opacity-40 mt-2 md:mt-4 shrink-0">
                     <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.437.917-4 3.638-4 5.849h3.983v10h-9.979z" />
                   </svg>
                   
@@ -140,7 +142,7 @@ export default function TestimonialSection() {
                     {rev.comment}
                   </p>
 
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="opacity-40 mt-2 md:mt-4 shrink-0">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="opacity-40 mb-2 md:mb-4 rotate-180 shrink-0">
                     <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.437.917-4 3.638-4 5.849h3.983v10h-9.979z" />
                   </svg>
                 </div>

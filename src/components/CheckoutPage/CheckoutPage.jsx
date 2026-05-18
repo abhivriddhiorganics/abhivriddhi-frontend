@@ -174,12 +174,12 @@ export default function CheckoutPage() {
   const shippingFee = calculateShipping(subtotal);
   const total = subtotal + shippingFee; 
 
-  // Guard: Redirect if cart is empty
+  // Guard: Redirect if cart is empty (prevent redirect while loading/verifying)
   useEffect(() => {
-    if (cartItems.length === 0 && !success) {
+    if (cartItems.length === 0 && !success && !loading) {
       navigate('/products');
     }
-  }, [cartItems, success, navigate]);
+  }, [cartItems, success, loading, navigate]);
 
   useEffect(() => {
     if (document.querySelector('script[src*="razorpay"]')) return;
@@ -336,6 +336,8 @@ export default function CheckoutPage() {
       modal: { ondismiss: () => setLoading(false) },
       handler: async (response) => {
         setLoading(true);
+        // Clear cart immediately upon successful payment return from Razorpay
+        clearCart();
         try {
           const res = await fetch(`${BASE_URL}/payment/verify`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -349,7 +351,6 @@ export default function CheckoutPage() {
           const data = await res.json();
           if (data.success) { 
             setPaidAmount(total);
-            clearCart(); 
             setOrderId(dbId || response.razorpay_payment_id); 
             setSuccess(true); 
           }

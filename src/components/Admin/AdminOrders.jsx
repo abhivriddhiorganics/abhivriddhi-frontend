@@ -122,7 +122,7 @@ const AdminOrders = () => {
                 }`}>
                   {order.orderStatus}
                 </div>
-                {order.paymentInfo?.status === 'Completed' ? (
+                {['Completed', 'Captured', 'Paid', 'Success', 'captured'].includes(order.paymentInfo?.status) ? (
                   <div className="px-2 py-0.5 rounded-md text-[9px] font-black bg-blue-50 text-blue-600 border border-blue-100 uppercase tracking-widest">
                     ✓ PAID
                   </div>
@@ -185,7 +185,7 @@ const AdminOrders = () => {
                       }`}>
                         {order.orderStatus}
                       </span>
-                      {order.paymentInfo?.status === 'Completed' ? (
+                      {['Completed', 'Captured', 'Paid', 'Success', 'captured'].includes(order.paymentInfo?.status) ? (
                         <span className="px-2 py-0.5 rounded-md text-[9px] font-black bg-blue-50 text-blue-600 border border-blue-100 uppercase tracking-widest">
                           ✓ PAID
                         </span>
